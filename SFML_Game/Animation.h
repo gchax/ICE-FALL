@@ -1,5 +1,5 @@
 #pragma once
-#include<SFML\Graphics.hpp>
+#include<SFML/Graphics.hpp>
 
 class Animation
 {
@@ -7,7 +7,7 @@ public:
 	Animation(sf::Texture* texture, sf::Vector2u imageCount, float switchTime);
 	~Animation();
 
-	void Update(int row, float deltaTime, bool faceRight);
+	void Update(int row, float deltaTime, bool faceTop, bool faceLeft, bool statusWalk, bool checkGameStart);
 
 public:
 	sf::IntRect uvRect;
@@ -18,4 +18,5 @@ private:
 
 	float totalTime;
 	float switchTime;
+	
 };

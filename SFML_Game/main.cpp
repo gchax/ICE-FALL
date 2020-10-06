@@ -10,7 +10,7 @@ int main()
 	playerTexture.loadFromFile("Satoshi.png");
 
 
-	Player player(&playerTexture, sf::Vector2u(3, 3), 0.3f, 50.0f);
+	Player player(&playerTexture, sf::Vector2u(3, 3), 0.2f, 50.0f);
 
 	float deltaTime = 0.0f;
 	sf::Clock clock;
@@ -27,10 +27,10 @@ int main()
 	{
 		deltaTime = clock.restart().asSeconds();
 
-		sf::Event event;
-		while (window.pollEvent(event))
+		sf::Event evnt;
+		while (window.pollEvent(evnt))
 		{
-			switch (event.type)
+			switch (evnt.type)
 			{
 				case sf::Event::Closed:
 					window.close();
@@ -38,8 +38,7 @@ int main()
 				case sf::Event::Resized:
 					//ResizeView(window, view);
 					break;
-				}
-
+			}
 		}
 
 		//KeyBoard Input
@@ -63,10 +62,8 @@ int main()
 		*/
 
 		player.Update(deltaTime);
-		
 
-		window.clear();
-		
+		window.clear();	
 		player.Draw(window);
 		window.display();
 	}

@@ -1,5 +1,5 @@
 #pragma once
-#include<SFML\Graphics.hpp>
+#include<SFML/Graphics.hpp>
 #include "Animation.h"
 
 class Player
@@ -21,5 +21,8 @@ private:
 	Animation animation;
 	unsigned int row;
 	float speed;
-	bool faceRight;
+	bool faceTop;
+	bool faceLeft;
+	bool statusWalk;
+	bool checkGameStart;
 };
