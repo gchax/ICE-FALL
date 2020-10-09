@@ -1,13 +1,14 @@
 #include "Player.h"
 #include "Animation.h"
+#include <iostream>
 Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed) :
 	animation(texture, imageCount, switchTime)
 {
 	this->speed = speed;
-	row = 0;
-	faceTop = true;
+	row = 4;
+	stop = 4;
 
-	body.setSize(sf::Vector2f(100.0f, 150.0f));
+	body.setSize(sf::Vector2f(80.0f,90.0f));
 	body.setOrigin(body.getSize() / 2.0f);
 	body.setPosition(206.0f, 206.0f);
 	body.setTexture(texture);
@@ -20,68 +21,38 @@ Player::~Player()
 
 void Player::Update(float deltaTime)
 {
+	row = stop;
 	sf::Vector2f movement(0.0f, 0.0f);
 
-	/*Movement in y-axis*/
+	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-	    checkGameStart = true;
 		movement.y -= speed * deltaTime;
-		row = 1;
+		row = 3;
+		stop = row+4;
 	}
-		
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		checkGameStart = true;
 		movement.y += speed * deltaTime;
 		row = 0;
+		stop = row+4;
 	}
-
-
-	/*Movement in x-axis*/
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		checkGameStart = true;
 		movement.x -= speed * deltaTime;
-		row = 2;
+		row = 1;
+		stop = row+4;
 	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		checkGameStart = true;
 		movement.x += speed * deltaTime;
 		row = 2;
+		stop = row+4;
 	}
-
-	//Check Movement
-	if (movement.y == 0.0f && movement.x == 0.0f)
-	{
-		statusWalk = false;
-	}
-	else
-	{
-		statusWalk = true;
-		if (movement.y < 0.0f)
-		{
-			faceTop = true;
-		}
-		else
-		{
-			faceTop = false;
-		}
-
-		if (movement.x < 0.0f)
-		{
-			faceLeft = true;
-		}	
-		else
-		{
-			faceLeft = false;
-		}
-			
-	}
-
-	animation.Update(row, deltaTime, faceTop, faceLeft, statusWalk, checkGameStart);
+	
+	
+	 
+	animation.Update(row, deltaTime);
 	body.setTextureRect(animation.uvRect);
 	body.move(movement);
 }

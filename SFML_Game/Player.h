@@ -20,9 +20,7 @@ private:
 	sf::RectangleShape body;
 	Animation animation;
 	unsigned int row;
+	unsigned int stop;
 	float speed;
-	bool faceTop;
-	bool faceLeft;
-	bool statusWalk;
-	bool checkGameStart;
+	
 };

@@ -7,7 +7,7 @@ public:
 	Animation(sf::Texture* texture, sf::Vector2u imageCount, float switchTime);
 	~Animation();
 
-	void Update(int row, float deltaTime, bool faceTop, bool faceLeft, bool statusWalk, bool checkGameStart);
+	void Update(int row, float deltaTime);
 
 public:
 	sf::IntRect uvRect;
