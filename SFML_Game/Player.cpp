@@ -26,7 +26,7 @@ void Player::Update(float deltaTime)
 	sf::Vector2f movement(0.0f, 0.0f);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-		deltaTime += 0.03;
+		deltaTime += 0.05;
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
