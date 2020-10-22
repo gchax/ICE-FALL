@@ -26,7 +26,7 @@ void Player::Update(float deltaTime)
 	sf::Vector2f movement(0.0f, 0.0f);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-		deltaTime += 0.01;
+		deltaTime += 0.03;
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
@@ -52,8 +52,6 @@ void Player::Update(float deltaTime)
 		row = 2;
 		stop = row+4;
 	}
-	
-	
 	
 	 
 	animation.Update(row, deltaTime);
