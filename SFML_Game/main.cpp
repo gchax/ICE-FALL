@@ -5,16 +5,18 @@
 #include "Platform.h"
 #include <sstream>
 #include <SFML/Audio.hpp>
+void showEndGame();
 
 int main()
 {
-	/*float windowWidth = 1080.0f, windowHigh = 720.0f;*/
+	float windowWidth = 1170.0f, windowHigh = 800.0f;
+	int countDie = 0;
 	
 	//Count State//
 	int state = 1;
 	
 	//Render Window//
-	sf::RenderWindow window(sf::VideoMode(1080, 720), "Ice Wall Walk", sf::Style::Close | sf::Style::Resize);
+	sf::RenderWindow window(sf::VideoMode(windowWidth, windowHigh), "Ice Wall Walk", sf::Style::Close | sf::Style::Resize);
 	window.setFramerateLimit(120);
 
 	//main music//
@@ -31,7 +33,7 @@ int main()
 	sDie.setVolume(30.0);
 
 	//BackGround//
-	sf::RectangleShape background(sf::Vector2f(1080, 720));
+	sf::RectangleShape background(sf::Vector2f(windowWidth, windowHigh));
 	sf::Texture backgroundTexture;
 	backgroundTexture.loadFromFile("Map1.jpg");
 	background.setTexture(&backgroundTexture);
@@ -59,7 +61,7 @@ int main()
 	showStage << "Stage 1";
 	sf::Text lblStage;
 	lblStage.setCharacterSize(30);
-	lblStage.setPosition({ 10,720 });
+	lblStage.setPosition({ 0,0 });
 	lblStage.setFont(font);
 	lblStage.setString(showStage.str());
 
@@ -69,26 +71,33 @@ int main()
 	showTime << f2min << f1min << ":" << f2sec << (int)elapsed.asSeconds() << ":" << elapsed.asMilliseconds() % 1000 / 10;
 	sf::Text lblTime;
 	lblTime.setCharacterSize(30);
-	lblTime.setPosition({ 0,0 });
+	lblTime.setPosition({ 100, 0 });
 	lblTime.setFont(font);
 	lblTime.setString(showTime.str());
 
-	//Collision Window//
-	Platform leftWindow(nullptr, sf::Vector2f(100.0f, 1080.0f), sf::Vector2f(-50.0f, 540.0f));
-	Platform rightWindow(nullptr, sf::Vector2f(100.0f, 1080.0f), sf::Vector2f(1130.0f, 540.0f));
-	Platform topWindow(nullptr, sf::Vector2f(1080.0f, 100.0f), sf::Vector2f(540.0f, -50.0f));
-	Platform bottomWindow(nullptr, sf::Vector2f(1080.0f, 100.0f), sf::Vector2f(540.0f, 770.0f));
-
+	//Collision Window windowWidth = 1170, windowHigh = 800//
+	float frameWidthLeft = 100.0f, frameHighLeft = windowHigh;
+	float frameWidthTop = windowWidth, frameHighTop = 100.0f;
+	Platform leftWindow(nullptr, sf::Vector2f(frameWidthLeft, frameHighLeft), sf::Vector2f(-frameWidthLeft /2, frameHighLeft/2));
+	Platform rightWindow(nullptr, sf::Vector2f(frameWidthLeft, frameHighLeft), sf::Vector2f(frameWidthTop + frameWidthLeft/2, frameHighLeft/2));
+	Platform topWindow(nullptr, sf::Vector2f(frameWidthTop, frameHighTop), sf::Vector2f(frameWidthTop / 2, -frameHighTop / 2));
+	Platform bottomWindow(nullptr, sf::Vector2f(frameWidthTop, frameHighTop), sf::Vector2f(frameWidthTop / 2, frameHighLeft + frameHighTop /2));
+	 
 	if (state == 1) //state 1//
 	{
-		int statusBox4 = 0, statusBox5 = 0;
+		int statusBox4 = 0, statusBox5 = 0, statusBox6 = 0;
 
-		//Collosion Block//
-		Platform Box1(nullptr, sf::Vector2f(880.0f, 160.0f), sf::Vector2f(540.0f, 207.5f));
-		Platform Box2(nullptr, sf::Vector2f(880.0f, 160.0f), sf::Vector2f(540.0f, 512.5f));
-		Platform Box3(nullptr, sf::Vector2f(880.0f, 180.0f), sf::Vector2f(540.0f, 360.0f));
-		Platform Box4(nullptr, sf::Vector2f(100.0f, 150.0f), sf::Vector2f(700.0f, 55.0f));
-		Platform Box5(&demonTexture, sf::Vector2f(120.0f, 150.0f), sf::Vector2f(1030.0f, 55.0f));
+		//Exit Way
+		sf::RectangleShape exitWay(sf::Vector2f(380.0f, 350.0f));
+		exitWay.setPosition(sf::Vector2f(700.0f, 100.0f));
+		
+		//Platform Box//
+		Platform Box1(nullptr, sf::Vector2f(610.0f, 600.0f), sf::Vector2f(395.0f, 400.0f));
+		Platform Box2(nullptr, sf::Vector2f(290.0f, 250.0f), sf::Vector2f(935.0f, 225.0f));
+		Platform Box3(nullptr, sf::Vector2f(380.0f, 250.0f), sf::Vector2f(890.0f, 575.0f));
+		Platform Box4(nullptr, sf::Vector2f(90.0f, 100.0f), sf::Vector2f(835.0f, 50.0f));
+		Platform Box5(&demonTexture, sf::Vector2f(100.0f, 90.0f), sf::Vector2f(1125.0f, 50.0f));
+		Platform Box6(nullptr, sf::Vector2f(90.0f, 100.0f), sf::Vector2f(1035.0f, 750.0f));
 		/*Box5.body.setFillColor(sf::Color(255, 255, 255, 0));*/
 
 		//In Game
@@ -142,78 +151,87 @@ int main()
 			rightWindow.GetCollider().CheckCollision(playerCollision, 1.0f);
 			topWindow.GetCollider().CheckCollision(playerCollision, 1.0f);
 			bottomWindow.GetCollider().CheckCollision(playerCollision, 1.0f);
-
+			
 			Box1.GetCollider().CheckCollision(playerCollision, 1.0f);
 			Box2.GetCollider().CheckCollision(playerCollision, 1.0f);
-			Box3.GetCollider().CheckCollision(playerCollision, 0.0f);
-
-
-			//Trap in Game//
-			if (player.GetPosition().x >= 1000 && player.GetPosition().y <= 80)
-			{
-				//Box4.body.setFillColor(sf::Color(255, 255, 255, 255));
-				sDie.play();
-				player.SetPosition(0.0f, 0.0f);
-			}
-			if (player.GetPosition().x >= 900 && player.GetPosition().y >= 500 && player.GetPosition().x <= 970)
-			{
-				sDie.play();
-				player.SetPosition(0.0f, 0.0f);
-			}
-
+			Box3.GetCollider().CheckCollision(playerCollision, 1.0f);
+			Box6.GetCollider().CheckCollision(playerCollision, 1.0f);
 
 			//Draw in Window//
 			player.Update(deltaTime);
 			std::cout << "x = " << player.GetPosition().x << " y = " << player.GetPosition().y << std::endl;
-			window.clear(sf::Color(150, 150, 150));
-			window.draw(background);
+			window.clear();
+			window.draw(exitWay);
+			/*window.draw(background);*/
 			player.Draw(window);
 
-			//Draw Platform//
+			//Draw Window Collision//
 			leftWindow.Draw(window);
 			rightWindow.Draw(window);
 			topWindow.Draw(window);
 			bottomWindow.Draw(window);
 
-			/*Box1 Box2 Box3*/
+			//Draw Box//
 			Box1.Draw(window);
 			Box2.Draw(window);
 			Box3.Draw(window);
-			/*Box4 Box 5*/
-			if (player.GetPosition().x >= 850 && player.GetPosition().y <= 80)
-			{
-				statusBox5 = 1;
-			}
-			if (statusBox5 == 1)
-			{
-				Box5.Draw(window);
-
-			}
-			if (player.GetPosition().y <= 80)
+			if (player.GetPosition().x >= 925.0f &&  player.GetPosition().y <= 70.0f)
 			{
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 				{
-					if (player.GetPosition().x >= 750 && player.GetPosition().x <= 800)
-						statusBox4 = 2;
+						statusBox4 = 1;
 				}
-
 			}
-			if (statusBox4 == 2)
+			if (statusBox4)
 			{
 				Box4.GetCollider().CheckCollision(playerCollision, 1.0f);
 				Box4.Draw(window);
 			}
+			if (player.GetPosition().x >= 930.0f && player.GetPosition().y <= 70.0f)
+			{
+				statusBox5 = 1;
+			}
+			if (statusBox5)
+			{
+				Box5.Draw(window);
+			}
+			if (player.GetPosition().x >= 930.0f && player.GetPosition().y >= 740.0f && player.GetPosition().y <= 770.0f)
+			{
+				statusBox6 = 1;
+			}
+			if (statusBox6)
+			{
+				Box6.Draw(window);
+			}
+			if (player.GetPosition().x >= 944.0f && player.GetPosition().x <= 1000.0f && player.GetPosition().y == 750.0f)
+			{
+				std::cout << "Hello\n";
+				exitWay.setFillColor(sf::Color::Black);
+			}
+			else
+			{
+				exitWay.setFillColor(sf::Color::White);
+			}
 			
+			//Die
+			if (player.GetPosition().x >= 1100 && player.GetPosition().y <= 70)
+			{
+				countDie += 1;
+				sDie.play();
+				player.SetPosition(45, 50);
+			}
+
+			//Draw Time
 			window.draw(lblTime);
+			window.draw(lblStage);
 
 			//Go state 2
-			if (player.GetPosition().x == 1030 && player.GetPosition().y == 665)
+			if (player.GetPosition().x >= 1120 && player.GetPosition().y >= 745 && player.GetPosition().y <= 750)
 			{
 				window.clear(sf::Color(150, 150, 150));
 				player.SetPosition(0.0f, 0.0f);
 				state = 2;
 				break;
-				
 			}
 
 			//Window display
@@ -222,11 +240,27 @@ int main()
 	}
 	if (state == 2) //state 2//
 	{
+		//Render Window//
+		windowWidth = 1149;
+		windowHigh = 1107;
+	
+		//BackGround//D
+		backgroundTexture.loadFromFile("PokamonMap1.png");
+		background.setTexture(&backgroundTexture);
+
 		//In Game//
 		while (window.isOpen())
 		{
 			//deltaTime//
 			deltaTime = clock.restart().asSeconds();
+
+			//Platform Box//
+			Platform Box1(nullptr, sf::Vector2f(610.0f, 600.0f), sf::Vector2f(395.0f, 400.0f));
+			Platform Box2(nullptr, sf::Vector2f(290.0f, 250.0f), sf::Vector2f(935.0f, 225.0f));
+			Platform Box3(nullptr, sf::Vector2f(380.0f, 250.0f), sf::Vector2f(890.0f, 575.0f));
+			Platform Box4(nullptr, sf::Vector2f(90.0f, 100.0f), sf::Vector2f(835.0f, 50.0f));
+			Platform Box5(&demonTexture, sf::Vector2f(100.0f, 90.0f), sf::Vector2f(1125.0f, 50.0f));
+			Platform Box6(nullptr, sf::Vector2f(90.0f, 100.0f), sf::Vector2f(1035.0f, 750.0f));
 
 			//Time//
 			sf::Time elapsed = clock2.getElapsedTime();
@@ -269,10 +303,10 @@ int main()
 
 			//Check Collision (0.0-push , 1.0-not push)//
 			Collider playerCollision = player.GetCollider();
-			leftWindow.GetCollider().CheckCollision(playerCollision, 1.0f);
+			/*leftWindow.GetCollider().CheckCollision(playerCollision, 1.0f);
 			rightWindow.GetCollider().CheckCollision(playerCollision, 1.0f);
 			topWindow.GetCollider().CheckCollision(playerCollision, 1.0f);
-			bottomWindow.GetCollider().CheckCollision(playerCollision, 1.0f);
+			bottomWindow.GetCollider().CheckCollision(playerCollision, 1.0f);*/
 
 			//Draw in Window//
 			player.Update(deltaTime);
@@ -282,10 +316,10 @@ int main()
 			player.Draw(window);
 
 			//Draw Platform//
-			leftWindow.Draw(window);
+			/*leftWindow.Draw(window);
 			rightWindow.Draw(window);
 			topWindow.Draw(window);
-			bottomWindow.Draw(window);
+			bottomWindow.Draw(window);*/
 
 			//Draw Time//
 			window.draw(lblTime);
@@ -298,4 +332,18 @@ int main()
 	
 
 	return 0;
+}
+
+
+void showEndGame()
+{
+	sf::Font font;
+	font.loadFromFile("LayijiMahaniyomV105.ttf");
+	std::ostringstream showStage;
+	showStage << "Stage 1";
+	sf::Text lblStage;
+	lblStage.setCharacterSize(30);
+	lblStage.setPosition({ 0,0 });
+	lblStage.setFont(font);
+	lblStage.setString(showStage.str());
 }
