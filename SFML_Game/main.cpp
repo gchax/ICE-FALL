@@ -16,7 +16,7 @@ int main()
 	int state = 1;
 	
 	//Render Window//
-	sf::RenderWindow window(sf::VideoMode(windowWidth, windowHigh), "Ice Wall Walk", sf::Style::Close | sf::Style::Resize);
+	sf::RenderWindow window(sf::VideoMode(windowWidth, windowHigh), "Satoshi Pajonpai", sf::Style::Close | sf::Style::Resize);
 	window.setFramerateLimit(120);
 
 	//main music//
