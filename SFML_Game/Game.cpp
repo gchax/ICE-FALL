@@ -3,7 +3,7 @@
 
 void Game::initWindow()
 {
-	this->window.create(sf::VideoMode(800,600), "Game 4", sf::Style::Close | sf::Style::Titlebar);
+	this->window.create(sf::VideoMode(1170,800), "Satoshi Pajonpai", sf::Style::Close | sf::Style::Titlebar);
 	this->window.setFramerateLimit(144);
 }
 
