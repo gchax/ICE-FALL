@@ -10,7 +10,7 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, 
 
 	body.setSize(sf::Vector2f(90.0f,100.0f));
 	body.setOrigin(body.getSize() / 2.0f);
-	body.setPosition(580.0f, 500.0f);
+	body.setPosition(667.f, 460.f);
 	body.setTexture(texture);
 }
 
@@ -24,9 +24,10 @@ void Player::Update(float deltaTime)
 
 	row = stop;
 	sf::Vector2f movement(0.0f, 0.0f);
+	deltaTime += 0.05;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-		deltaTime += 0.05;
+		deltaTime -= 0.05;
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
