@@ -9,7 +9,7 @@
 int main()
 {
 	//window Height Weight
-	float windowHight = 1100.0, windowWidth= 1170.0;
+	float windowHight = 1100.0, windowWidth = 1170.0;
 
 	//State Count//
 	int state = 1;
@@ -61,13 +61,13 @@ int main()
 				}
 			}
 
-			if (player.GetPosition().x < 145 +45)
-				player.SetPosition(145+45, player.GetPosition().y);
-			if (player.GetPosition().x > 145+880 -45)
-				player.SetPosition(145+880 -45, player.GetPosition().y);
-			if (player.GetPosition().y < 192.5 +45)
-				player.SetPosition(player.GetPosition().x, 192.5 +45);
-			if (player.GetPosition().y > 907.5 -45)
+			if (player.GetPosition().x < 145 + 45)
+				player.SetPosition(145 + 45, player.GetPosition().y);
+			if (player.GetPosition().x > 145 + 880 - 45)
+				player.SetPosition(145 + 880 - 45, player.GetPosition().y);
+			if (player.GetPosition().y < 192.5 + 45)
+				player.SetPosition(player.GetPosition().x, 192.5 + 45);
+			if (player.GetPosition().y > 907.5 - 45)
 				player.SetPosition(player.GetPosition().x, 907.5 - 45);
 
 			//Draw
@@ -84,6 +84,6 @@ int main()
 		}
 
 	}
-	
+
 	return 0;
 }
