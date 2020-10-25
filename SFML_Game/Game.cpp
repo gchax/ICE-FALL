@@ -4,6 +4,7 @@
 void Game::initWindow()
 {
 	this->window.create(sf::VideoMode(800,600), "Game 4", sf::Style::Close | sf::Style::Titlebar);
+	this->window.setFramerateLimit(144);
 }
 
 void Game::initPlayer()
@@ -41,12 +42,17 @@ void Game::update()
 	this->updatePlayer();
 }
 
+void Game::renderPlayer()
+{
+	this->player->render(this->window);
+}
+
 void Game::render()
 {
 	this->window.clear(sf::Color::Green);
 
 	//Render game
-
+	this->renderPlayer();
 
 	this->window.display();
 }

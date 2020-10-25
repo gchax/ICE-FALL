@@ -22,6 +22,7 @@ public:
 	//Functions
 	void updatePlayer();
 	void update();
+	void renderPlayer();
 	void render();
 	const sf::RenderWindow& getWindow() const;
 };
