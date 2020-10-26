@@ -162,7 +162,7 @@ int main()
 		background.setTexture(&backgroundTexture);
 		background.setOrigin(background.getSize() / 2.0f);
 		background.setPosition(sf::Vector2f(backGroundWidth, backGroundHeight));
-		
+
 		//In Game
 		while (window.isOpen())
 		{
@@ -228,5 +228,5 @@ int main()
 
 
 	return 0;
-	
+
 }
