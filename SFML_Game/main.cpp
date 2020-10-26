@@ -150,6 +150,9 @@ int main()
 		//spawn point
 		player.SetPosition(315.f, 369.f);
 
+		//Platform Furniture//
+		Platform Box1(nullptr, sf::Vector2f(69.0f, 1428.f), sf::Vector2f(-139.5f, 600.f));
+
 		//BackGround//
 		float backGroundWidth = windowWidth / 2.0f;
 		float backGroundHeight = windowHight / 2.0f;
@@ -159,6 +162,8 @@ int main()
 		background.setTexture(&backgroundTexture);
 		background.setOrigin(background.getSize() / 2.0f);
 		background.setPosition(sf::Vector2f(backGroundWidth, backGroundHeight));
+		
+		//In Game
 		while (window.isOpen())
 		{
 			//Close Window//
@@ -173,6 +178,9 @@ int main()
 				}
 			}
 
+			//Cheek Collision Furniture
+			Collider playerCollision = player.GetCollider();
+			Box1.GetCollider().CheckCollision(playerCollision, 1.0f);
 
 			//Draw
 			player.Update(deltaTime);
@@ -182,10 +190,12 @@ int main()
 			window.clear();
 			window.setView(view);
 			window.draw(background);
+			Box1.Draw(window);
 			player.Draw(window);
 
 			window.display();
 		}
+
 	}
 
 
