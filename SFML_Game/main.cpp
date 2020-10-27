@@ -13,7 +13,7 @@ int main()
 	float  windowWidth = 1200.0f, windowHight = 950.0f;
 
 	//State Count//
-	int state = 1;
+	int state = 2;
 
 	//Render Window//
 	sf::RenderWindow window(sf::VideoMode(int(windowWidth), int(windowHight)), "Satoshi Pajonpai", sf::Style::Close | sf::Style::Resize);
@@ -60,7 +60,7 @@ int main()
 		Platform Box3(&BlackTexture, sf::Vector2f(57.0f, 139.0f), sf::Vector2f(595.5f + 160.0f, 158.0f + 117.5f - 50.0f));
 		Platform Box4(&BlackTexture, sf::Vector2f(132.0f, 131.0f), sf::Vector2f(814.5f + 160.0f, 155.5f + 117.5f - 50.0f));
 		Platform Box5(&BlackTexture, sf::Vector2f(200.0f, 132.0f), sf::Vector2f(278.0f + 160.0f, 372.0f + 117.5f));
-		Platform Box6(&BlackTexture, sf::Vector2f(311.0f, 100.0f), sf::Vector2f(332.0f + 160.0f, 558.5f + 117.5f));
+		Platform Box6(&BlackTexture, sf::Vector2f(300.0f, 100.0f), sf::Vector2f(300.0f + 160.0f, 558.5f + 117.5f));
 		Platform Box7(&pokeball, sf::Vector2f(40.0f, 40.0f), sf::Vector2f(684.6f + 160.0f, 220.7f + 117.5f + 350.0f));
 
 		//BackGround//
@@ -125,6 +125,8 @@ int main()
 			Box6.Draw(window);
 			window.draw(background);
 			Box7.Draw(window);
+			
+			
 			player.Draw(window);
 
 			//Game Over
@@ -151,8 +153,17 @@ int main()
 		player.SetPosition(315.f, 369.f);
 
 		//Platform Furniture//
-		Platform Box1(nullptr, sf::Vector2f(69.0f, 1428.f), sf::Vector2f(-139.5f, 600.f));
-
+		Platform Box1(&BlackTexture, sf::Vector2f(96.0f, 1428.f), sf::Vector2f(-47.5f - 50.f, 535.5f));
+		Platform Box2(&BlackTexture, sf::Vector2f(98.0f, 210.f), sf::Vector2f(-22.f + 50.0f, -39.5f - 50.0f));
+		Platform Box3(&BlackTexture, sf::Vector2f(384.0f + 125.f, 104.f), sf::Vector2f(215 + 100.0f, -91.5f - 100.0f));
+		Platform Box4(&BlackTexture, sf::Vector2f(96.0f, 1428.f), sf::Vector2f(-47.5f - 50.f + 1400, 535.5f));
+		Platform Box5(&BlackTexture, sf::Vector2f(98.0f, 210.f), sf::Vector2f(-22.f + 50.0f + 1150, -39.5f - 50.0f));
+		Platform Box6(&BlackTexture, sf::Vector2f(384.0f + 125.f, 104.f), sf::Vector2f(215 + 500.0f + 300, -91.5f - 100.0f));
+		Platform Box7(&BlackTexture, sf::Vector2f(98.0f, 210.f), sf::Vector2f(-22.f + 50.0f, -39.5f - 50.0f + 1120));
+		Platform Box8(&BlackTexture, sf::Vector2f(98.0f, 210.f), sf::Vector2f(-22.f + 50.0f + 1150, -39.5f - 50.0f + 980));
+		Platform Box9(&BlackTexture, sf::Vector2f(98.0f, 210.f), sf::Vector2f(-22.f + 50.0f + 1150 - 130, -39.5f - 50.0f + 1100));
+		Platform Box10(&BlackTexture, sf::Vector2f(1528.f, 120.f), sf::Vector2f(764.f, 1428.f - 310.f));
+		
 		//BackGround//
 		float backGroundWidth = windowWidth / 2.0f;
 		float backGroundHeight = windowHight / 2.0f;
@@ -178,10 +189,19 @@ int main()
 				}
 			}
 
-			//Cheek Collision Furniture
+			//Cheek Collision Tree
 			Collider playerCollision = player.GetCollider();
 			Box1.GetCollider().CheckCollision(playerCollision, 1.0f);
-
+			Box2.GetCollider().CheckCollision(playerCollision, 1.0f);
+			Box3.GetCollider().CheckCollision(playerCollision, 1.0f);
+			Box4.GetCollider().CheckCollision(playerCollision, 1.0f);
+			Box5.GetCollider().CheckCollision(playerCollision, 1.0f);
+			Box6.GetCollider().CheckCollision(playerCollision, 1.0f);
+			Box7.GetCollider().CheckCollision(playerCollision, 1.0f);
+			Box8.GetCollider().CheckCollision(playerCollision, 1.0f);
+			Box9.GetCollider().CheckCollision(playerCollision, 1.0f);
+			Box10.GetCollider().CheckCollision(playerCollision, 1.0f);
+			
 			//Draw
 			player.Update(deltaTime);
 			view.setCenter(player.GetPosition());
@@ -189,8 +209,17 @@ int main()
 
 			window.clear();
 			window.setView(view);
-			window.draw(background);
 			Box1.Draw(window);
+			Box2.Draw(window);
+			Box3.Draw(window);
+			Box4.Draw(window);
+			Box5.Draw(window);
+			Box6.Draw(window);
+			Box7.Draw(window);
+			Box8.Draw(window);
+			Box9.Draw(window);
+			Box10.Draw(window);
+			window.draw(background);
 			player.Draw(window);
 
 			window.display();
