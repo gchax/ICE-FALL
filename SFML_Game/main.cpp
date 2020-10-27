@@ -13,7 +13,7 @@ int main()
 	float  windowWidth = 1200.0f, windowHight = 950.0f;
 
 	//State Count//
-	int state = 2;
+	int state = 1;
 
 	//Render Window//
 	sf::RenderWindow window(sf::VideoMode(int(windowWidth), int(windowHight)), "Satoshi Pajonpai", sf::Style::Close | sf::Style::Resize);
@@ -201,6 +201,9 @@ int main()
 			Box8.GetCollider().CheckCollision(playerCollision, 1.0f);
 			Box9.GetCollider().CheckCollision(playerCollision, 1.0f);
 			Box10.GetCollider().CheckCollision(playerCollision, 1.0f);
+
+			//Check Collision House
+
 			
 			//Draw
 			player.Update(deltaTime);
