@@ -27,8 +27,8 @@ void Player::Update(float deltaTime)
 	deltaTime += 0.05;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-		deltaTime -= 0.05;
-	
+		deltaTime -= 0.03;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
 		movement.y -= speed * deltaTime ;

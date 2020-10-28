@@ -16,7 +16,7 @@ int main()
 	int state = 1;
 
 	//Render Window//
-	sf::RenderWindow window(sf::VideoMode(int(windowWidth), int(windowHight)), "Satoshi Pajonpai", sf::Style::Close | sf::Style::Resize);
+	sf::RenderWindow window(sf::VideoMode(int(windowWidth), int(windowHight)), "Satoshi Pajonpai");
 	window.setFramerateLimit(120);
 
 	//View
@@ -159,11 +159,20 @@ int main()
 		Platform Box4(&BlackTexture, sf::Vector2f(96.0f, 1428.f), sf::Vector2f(-47.5f - 50.f + 1400, 535.5f));
 		Platform Box5(&BlackTexture, sf::Vector2f(98.0f, 210.f), sf::Vector2f(-22.f + 50.0f + 1150, -39.5f - 50.0f));
 		Platform Box6(&BlackTexture, sf::Vector2f(384.0f + 125.f, 104.f), sf::Vector2f(215 + 500.0f + 300, -91.5f - 100.0f));
-		Platform Box7(&BlackTexture, sf::Vector2f(98.0f, 210.f), sf::Vector2f(-22.f + 50.0f, -39.5f - 50.0f + 1120));
+		Platform Box7(&BlackTexture, sf::Vector2f(98.0f, 210.f), sf::Vector2f(-22.f + 50.0f - 25, -39.5f - 50.0f + 1120));
 		Platform Box8(&BlackTexture, sf::Vector2f(98.0f, 210.f), sf::Vector2f(-22.f + 50.0f + 1150, -39.5f - 50.0f + 980));
 		Platform Box9(&BlackTexture, sf::Vector2f(98.0f, 210.f), sf::Vector2f(-22.f + 50.0f + 1150 - 130, -39.5f - 50.0f + 1100));
 		Platform Box10(&BlackTexture, sf::Vector2f(1528.f, 120.f), sf::Vector2f(764.f, 1428.f - 310.f));
-		
+		Platform House1_1(nullptr, sf::Vector2f(256.f, 173.f), sf::Vector2f(412.f - 164.0f, 375.5f - 144.f - 100.f));
+		Platform House1_2(nullptr, sf::Vector2f(306, 210), sf::Vector2f(414.f - 164.0f, 467.5f - 144.f - 100.f));
+		Platform House1_3 (nullptr, sf::Vector2f(40, 30), sf::Vector2f(440.f, 315.f));
+		Platform House2_1(nullptr, sf::Vector2f(256.f, 173.f), sf::Vector2f(412.f - 164.0f + 706.f, 375.5f - 144.f - 100.f   ));
+		Platform House2_2(nullptr, sf::Vector2f(306, 210), sf::Vector2f(414.f - 164.0f + 708.f, 467.5f - 144.f - 100.f));
+		Platform House2_3(nullptr, sf::Vector2f(40, 30), sf::Vector2f(440.f + 320.f, 315.f));
+		Platform House3_1(nullptr, sf::Vector2f(348 + 100, 285 - 5), sf::Vector2f(545.f - 164.f, 947.f - 144.f - 100));
+		Platform House3_2(nullptr, sf::Vector2f(50, 50), sf::Vector2f(540.5f - 164.f, 1146.f - 144.f - 100));
+		Platform House3_3(nullptr, sf::Vector2f(50, 30), sf::Vector2f(1120.f - 164.f, 883.5f - 144.f - 100.f));
+
 		//BackGround//
 		float backGroundWidth = windowWidth / 2.0f;
 		float backGroundHeight = windowHight / 2.0f;
@@ -203,7 +212,15 @@ int main()
 			Box10.GetCollider().CheckCollision(playerCollision, 1.0f);
 
 			//Check Collision House
-
+			House1_1.GetCollider().CheckCollision(playerCollision, 1.0f);
+			House1_2.GetCollider().CheckCollision(playerCollision, 1.0f);
+			House1_3.GetCollider().CheckCollision(playerCollision, 1.0f);
+			House2_1.GetCollider().CheckCollision(playerCollision, 1.0f);
+			House2_2.GetCollider().CheckCollision(playerCollision, 1.0f);
+			House2_3.GetCollider().CheckCollision(playerCollision, 1.0f);
+			House3_1.GetCollider().CheckCollision(playerCollision, 1.0f);
+			House3_2.GetCollider().CheckCollision(playerCollision, 1.0f);
+			House3_3.GetCollider().CheckCollision(playerCollision, 1.0f);
 			
 			//Draw
 			player.Update(deltaTime);
@@ -221,8 +238,18 @@ int main()
 			Box7.Draw(window);
 			Box8.Draw(window);
 			Box9.Draw(window);
-			Box10.Draw(window);
+			Box10.Draw(window); 
+			House1_1.Draw(window);
+			House1_2.Draw(window);
+			House1_3.Draw(window);
+			House2_1.Draw(window);
+			House2_2.Draw(window);
+			House2_3.Draw(window);
+			House3_1.Draw(window);
+			House3_2.Draw(window);
+			House3_3.Draw(window);
 			window.draw(background);
+
 			player.Draw(window);
 
 			window.display();
