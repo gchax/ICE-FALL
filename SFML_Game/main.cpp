@@ -21,7 +21,7 @@ int main()
 	bool check_state2 = false;
 
 	//Render Window//
-	sf::RenderWindow window(sf::VideoMode(int(windowWidth), int(windowHight)), "Satoshi Pajonpai");
+	sf::RenderWindow window(sf::VideoMode(int(windowWidth), int(windowHight)), "Satoshi Pajonpai", sf::Style::Close);
 	window.setFramerateLimit(120);
 
 	//View
@@ -40,7 +40,6 @@ int main()
 	sf::Texture BlackTexture;
 	BlackTexture.loadFromFile("Black.jpg");
 
-
 	//Clock//
 	float deltaTime = 0.0f;
 	sf::Clock clock;
@@ -49,25 +48,40 @@ int main()
 	sf::Font font;
 	if (!font.loadFromFile("LayijiMahaniyomV105.ttf"))
 		std::cout << "ERROR FONT";
-	
+
+	//Font GameOver
+	sf::Text textGameOver;
+	textGameOver.setFont(font);
+	textGameOver.setCharacterSize(256);
+	textGameOver.setFillColor(sf::Color::Red);
+	textGameOver.setStyle(sf::Text::Style::Bold);
+	textGameOver.setString("Game Over");
+
+	//Font Pokeball Bomb
+	sf::Text textPokeball;
+	textPokeball.setFont(font);
+	textPokeball.setCharacterSize(64);
+	textPokeball.setFillColor(sf::Color::Red);
+	textPokeball.setStyle(sf::Text::Style::Bold);
+	textPokeball.setString("Pokeball is a Bomb!?");
+
+	//Font Flower Prison
+	sf::Text textFloawer;
+	textFloawer.setFont(font);
+	textFloawer.setCharacterSize(64);
+	textFloawer.setFillColor(sf::Color::Red);
+	textFloawer.setStyle(sf::Text::Style::Bold);
+	textFloawer.setString("Flowers have Venom");
+
+	//Run Game
 	while (1)
 	{
 		//State
 		if (state == 1)
 		{
 			//Spawn Point
-			if(check_state2)
-			player.SetPosition(843.074f, 710.268f);
-
-			//Platform Furniture//
-			Platform Box1(&BlackTexture, sf::Vector2f(342.0f, 150.0f), sf::Vector2f(171.0f + 160.0f, 138.0f + 117.5f - 20.0f));
-			Platform Box2(&BlackTexture, sf::Vector2f(204.0f, 136.0f), sf::Vector2f(458.5f + 160.0f, 70.0f + 117.5f - 20.0f));
-			Platform Box3(&BlackTexture, sf::Vector2f(57.0f, 139.0f), sf::Vector2f(595.5f + 160.0f, 158.0f + 117.5f - 50.0f));
-			Platform Box8(nullptr, sf::Vector2f(200.0f, 131.0f), sf::Vector2f(843.5f, 155.5f + 117.5f - 50.0f));
-			Platform Box4(&BlackTexture, sf::Vector2f(132.0f, 131.0f), sf::Vector2f(814.5f + 160.0f, 155.5f + 117.5f - 50.0f));
-			Platform Box5(&BlackTexture, sf::Vector2f(200.0f, 132.0f), sf::Vector2f(278.0f + 160.0f, 372.0f + 117.5f));
-			Platform Box6(&BlackTexture, sf::Vector2f(280.0f, 110.0f), sf::Vector2f(300.0f + 160.0f + 16.f, 558.5f + 117.5f));
-			Platform Box7(&pokeballTexture, sf::Vector2f(40.0f, 40.0f), sf::Vector2f(684.6f + 160.0f, 220.7f + 117.5f + 350.0f));
+			if (check_state2)
+				player.SetPosition(845.f, 693.f);
 
 			//BackGround//
 			float backGroundWidth = windowWidth / 2.0f;
@@ -78,6 +92,19 @@ int main()
 			background.setTexture(&backgroundTexture);
 			background.setOrigin(background.getSize() / 2.0f);
 			background.setPosition(sf::Vector2f(backGroundWidth, backGroundHeight));
+
+			//Platform Furniture//
+			Platform Box1(&BlackTexture, sf::Vector2f(342.0f, 150.0f), sf::Vector2f(171.0f + 160.0f, 138.0f + 117.5f - 20.0f));
+			Platform Box2(&BlackTexture, sf::Vector2f(204.0f, 136.0f), sf::Vector2f(458.5f + 160.0f, 70.0f + 117.5f - 20.0f));
+			Platform Box3(&BlackTexture, sf::Vector2f(57.0f, 139.0f), sf::Vector2f(595.5f + 160.0f, 158.0f + 117.5f - 50.0f));
+			Platform Box8(nullptr, sf::Vector2f(200.0f, 131.0f), sf::Vector2f(843.5f, 155.5f + 117.5f - 50.0f));
+			Platform Box4(&BlackTexture, sf::Vector2f(132.0f, 131.0f), sf::Vector2f(814.5f + 160.0f, 155.5f + 117.5f - 50.0f));
+			Platform Box5(&BlackTexture, sf::Vector2f(200.0f, 132.0f), sf::Vector2f(278.0f + 160.0f, 372.0f + 117.5f));
+			Platform Box6(&BlackTexture, sf::Vector2f(280.0f, 110.0f), sf::Vector2f(300.0f + 160.0f + 16.f, 558.5f + 117.5f));
+			Platform Box7(&pokeballTexture, sf::Vector2f(40.0f, 40.0f), sf::Vector2f(684.6f + 160.0f, 220.7f + 117.5f + 250.0f));
+
+			//Platform Floor 2//
+			Platform Brahma(&BlackTexture, sf::Vector2f(92.0f, 100.0f), sf::Vector2f(685.0f + 160.0f, 215.f + 117.5f));
 
 			//Game Play//
 			while (window.isOpen())
@@ -131,20 +158,22 @@ int main()
 				Box5.Draw(window);
 				Box6.Draw(window);
 				Box8.Draw(window);
+
 				window.draw(background);
 				Box7.Draw(window);
-				
+
+				Brahma.Draw(window);
 				player.Draw(window);
-				
+
 
 				//Game Over Pokeball
-				if (player.GetPosition().x > 805.0f && player.GetPosition().x <= 872.0f && player.GetPosition().y >= 620.0f && player.GetPosition().y <= 690.0f)
+				if (player.GetPosition().x > 805.0f && player.GetPosition().x <= 872.0f && player.GetPosition().y >= 620.0f - 100.f && player.GetPosition().y <= 690.0f - 100.f)
 				{
 					pokeball = 1;
 					break;
 				}
 
-				//state 2
+				//Goto state 2
 				if (player.GetPosition().x > 824.0f && player.GetPosition().x <= 938.0f && player.GetPosition().y >= 787.0f && player.GetPosition().y <= 788.0f)
 				{
 					std::cout << "state 2\n";
@@ -156,10 +185,20 @@ int main()
 			}
 
 		}
-		if (state == 2)
+		else if (state == 2)
 		{
 			//spawn point
 			player.SetPosition(315.f, 433.f);
+
+			//BackGround//
+			float backGroundWidth = windowWidth / 2.0f;
+			float backGroundHeight = windowHight / 2.0f;
+			sf::RectangleShape background(sf::Vector2f(1528, 1428));
+			sf::Texture backgroundTexture;
+			backgroundTexture.loadFromFile("PokamonMap1.png");
+			background.setTexture(&backgroundTexture);
+			background.setOrigin(background.getSize() / 2.0f);
+			background.setPosition(sf::Vector2f(backGroundWidth, backGroundHeight));
 
 			//Platform Tree//
 			Platform Box1(&BlackTexture, sf::Vector2f(96.0f, 1428.f), sf::Vector2f(-47.5f - 50.f, 535.5f));
@@ -186,16 +225,6 @@ int main()
 
 			//Platform Flower//
 			Platform Flower1(nullptr, sf::Vector2f(57, 44), sf::Vector2f(349.5f - 164.f, 709.0f - 144.f - 100.f));
-
-			//BackGround//
-			float backGroundWidth = windowWidth / 2.0f;
-			float backGroundHeight = windowHight / 2.0f;
-			sf::RectangleShape background(sf::Vector2f(1528, 1428));
-			sf::Texture backgroundTexture;
-			backgroundTexture.loadFromFile("PokamonMap1.png");
-			background.setTexture(&backgroundTexture);
-			background.setOrigin(background.getSize() / 2.0f);
-			background.setPosition(sf::Vector2f(backGroundWidth, backGroundHeight));
 
 			//In Game
 			while (window.isOpen())
@@ -278,11 +307,21 @@ int main()
 					break;
 				}
 
-				//state 1
+				//Goto state 1 (starter room)
 				if (player.GetPosition().x >= 300.0f && player.GetPosition().x <= 319.0f && player.GetPosition().y >= 377.8f && player.GetPosition().y <= 381.0f)
 				{
 					check_state2 = true;
+					player.SetPosition(845.f, 693.f);
 					state = 1;
+					break;
+				}
+
+				//Goto state 3 (Haruka room)
+				if (player.GetPosition().x >= 860.0f && player.GetPosition().x <= 900.0f && player.GetPosition().y >= 377.8f && player.GetPosition().y <= 381.0f)
+				{
+					check_state2 = true;
+					player.SetPosition(845.f, 693.f);
+					state = 3;
 					break;
 				}
 
@@ -290,36 +329,55 @@ int main()
 			}
 
 		}
+		else if (state == 3)
+		{
+			//spawn point
+			player.SetPosition(315.f, 433.f);
+
+			//BackGround//
+			sf::Texture backgroundTexture;
+			backgroundTexture.loadFromFile("state3.png");
+			float backGroundWidth = windowWidth / 2.0f;
+			float backGroundHeight = windowHight / 2.0f;
+			sf::RectangleShape background(sf::Vector2f(870, 700));
+			background.setTexture(&backgroundTexture);
+			background.setOrigin(background.getSize() / 2.0f);
+			background.setPosition(sf::Vector2f(backGroundWidth, backGroundHeight));
+
+			//In Game
+			while (window.isOpen())
+			{
+				//Close Window//
+				sf::Event evnt;
+				while (window.pollEvent(evnt))
+				{
+					switch (evnt.type)
+					{
+					case sf::Event::Closed:
+						window.close();
+						break;
+					}
+				}
+
+
+				//Draw
+				player.Update(deltaTime);
+				view.setCenter(player.GetPosition());
+				std::cout << "x = " << player.GetPosition().x << " y = " << player.GetPosition().y << std::endl;
+
+				window.clear();
+				window.setView(view);
+				window.draw(background);
+				player.Draw(window);
+				window.display();
+			}
 
 
 
-		//Font GameOver
-		sf::Text textGameOver;
-		textGameOver.setFont(font);
-		textGameOver.setCharacterSize(256);
-		textGameOver.setFillColor(sf::Color::Red);
-		textGameOver.setStyle(sf::Text::Style::Bold);
-		textGameOver.setString("Game Over");
-
-		//Font Pokeball Bomb
-		sf::Text textPokeball;
-		textPokeball.setFont(font);
-		textPokeball.setCharacterSize(64);
-		textPokeball.setFillColor(sf::Color::Red);
-		textPokeball.setStyle(sf::Text::Style::Bold);
-		textPokeball.setString("Pokeball is a Bomb!?");
-
-		//Font Flower Prison
-		sf::Text textFloawer;
-		textFloawer.setFont(font);
-		textFloawer.setCharacterSize(64);
-		textFloawer.setFillColor(sf::Color::Red);
-		textFloawer.setStyle(sf::Text::Style::Bold);
-		textFloawer.setString("Flowers have Prison");
-
+		}
+		
 		if (pokeball == 1)
 		{
-			//EndGame
 			while (window.isOpen())
 			{
 				textGameOver.setPosition(player.GetPosition().x - 450, player.GetPosition().y - 300);
@@ -350,7 +408,6 @@ int main()
 		}
 		if (flower == 1)
 		{
-			//EndGame
 			while (window.isOpen())
 			{
 				textGameOver.setPosition(player.GetPosition().x - 450, player.GetPosition().y - 300);
@@ -379,10 +436,8 @@ int main()
 				}
 			}
 		}
+
+		
 	}
-	
-
-
 	return 0;
-
 }
