@@ -101,6 +101,8 @@ int main()
 			Platform Box4(&BlackTexture, sf::Vector2f(132.0f, 131.0f), sf::Vector2f(814.5f + 160.0f, 155.5f + 117.5f - 50.0f));
 			Platform Box5(&BlackTexture, sf::Vector2f(200.0f, 132.0f), sf::Vector2f(278.0f + 160.0f, 372.0f + 117.5f));
 			Platform Box6(&BlackTexture, sf::Vector2f(280.0f, 110.0f), sf::Vector2f(300.0f + 160.0f + 16.f, 558.5f + 117.5f));
+			
+			//Platform pokeball//
 			Platform Box7(&pokeballTexture, sf::Vector2f(40.0f, 40.0f), sf::Vector2f(684.6f + 160.0f, 220.7f + 117.5f + 250.0f));
 
 			//Platform Floor 2//
@@ -176,6 +178,8 @@ int main()
 				//Goto state 2
 				if (player.GetPosition().x > 824.0f && player.GetPosition().x <= 938.0f && player.GetPosition().y >= 787.0f && player.GetPosition().y <= 788.0f)
 				{
+					//spawn point
+					player.SetPosition(315.f, 433.f);
 					std::cout << "state 2\n";
 					state = 2;
 					break;
@@ -187,9 +191,6 @@ int main()
 		}
 		else if (state == 2)
 		{
-			//spawn point
-			player.SetPosition(315.f, 433.f);
-
 			//BackGround//
 			float backGroundWidth = windowWidth / 2.0f;
 			float backGroundHeight = windowHight / 2.0f;
@@ -225,6 +226,9 @@ int main()
 
 			//Platform Flower//
 			Platform Flower1(nullptr, sf::Vector2f(57, 44), sf::Vector2f(349.5f - 164.f, 709.0f - 144.f - 100.f));
+
+			//Platform pokeball//
+			//Platform pokeball2_1(&pokeballTexture, sf::Vector2f(40.0f, 40.0f), sf::Vector2f(684.6f + 160.0f, 220.7f + 117.5f + 250.0f));
 
 			//In Game
 			while (window.isOpen())
@@ -332,7 +336,7 @@ int main()
 		else if (state == 3)
 		{
 			//spawn point
-			player.SetPosition(315.f, 433.f);
+			player.SetPosition(359.f, 699.f);
 
 			//BackGround//
 			sf::Texture backgroundTexture;
@@ -359,15 +363,62 @@ int main()
 					}
 				}
 
+				//Platform Furniture//
+				Platform Box1(&BlackTexture, sf::Vector2f(116.0f, 146.0f), sf::Vector2f(165 + 580 + 15, 125 + 142 - 60));
+				Platform Box2(&BlackTexture, sf::Vector2f(159.0f, 95.0f), sf::Vector2f(165 + 718.5, 125 + 178.5 - 70));
+				Platform Box3(&BlackTexture, sf::Vector2f(220.0f, 50.0f), sf::Vector2f(165 + 559.5 + 40, 125 + 334 - 10));
+				Platform Box4(&BlackTexture, sf::Vector2f(206.0f, 108.0f), sf::Vector2f(165 + 419.5, 125 + 54 - 30));
+				Platform Box5(&BlackTexture, sf::Vector2f(45.0f, 222.0f), sf::Vector2f(165 + 279 + 5, 125 + 110 - 60));
+				Platform Box6(&BlackTexture, sf::Vector2f(135.0f, 220.0f), sf::Vector2f(165 + 67.5,125 + 111.5 - 60));
+				Platform Box7(&BlackTexture, sf::Vector2f(275.0f, 110.0f), sf::Vector2f(165 + 556,125 + 520.5));
+				Platform Box8(&BlackTexture, sf::Vector2f(140.0f, 42.0f), sf::Vector2f(165 + 155,125 + 672 + 45));
+				
+				//Background Collision
+				if (player.GetPosition().x < 165 + 45)
+					player.SetPosition(165 + 45, player.GetPosition().y);
+				if (player.GetPosition().x > 165 + 870 - 45)
+					player.SetPosition(165 + 870 - 45, player.GetPosition().y);
+				if (player.GetPosition().y < 125.5 + 45)
+					player.SetPosition(player.GetPosition().x, 125 + 45);
+				if (player.GetPosition().y > 125.5 + 700 - 45)
+					player.SetPosition(player.GetPosition().x, 125 + 700 - 45);
 
+				//Cheek Collision Furniture
+				Collider playerCollision = player.GetCollider();
+				Box1.GetCollider().CheckCollision(playerCollision, 1.0f);
+				Box2.GetCollider().CheckCollision(playerCollision, 1.0f);
+				Box3.GetCollider().CheckCollision(playerCollision, 1.0f);
+				Box4.GetCollider().CheckCollision(playerCollision, 1.0f);
+				Box5.GetCollider().CheckCollision(playerCollision, 1.0f);
+				Box6.GetCollider().CheckCollision(playerCollision, 1.0f);			
+				Box7.GetCollider().CheckCollision(playerCollision, 1.0f);			
+
+				//Goto state 2
+				if (player.GetGlobalBounds().intersects(Box8.GetGlobalBounds()))
+				{
+					player.SetPosition(888.5, 409.5);
+					state = 2;
+					break;
+				}
+				
 				//Draw
 				player.Update(deltaTime);
 				view.setCenter(player.GetPosition());
 				std::cout << "x = " << player.GetPosition().x << " y = " << player.GetPosition().y << std::endl;
-
 				window.clear();
 				window.setView(view);
+				Box1.Draw(window);
+				Box2.Draw(window);
+				Box3.Draw(window);
+				Box4.Draw(window);
+				Box5.Draw(window);
+				Box6.Draw(window);
+				Box7.Draw(window);
+				Box8.Draw(window);
 				window.draw(background);
+
+				
+
 				player.Draw(window);
 				window.display();
 			}

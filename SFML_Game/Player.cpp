@@ -70,3 +70,4 @@ void Player::SetPosition(float x, float y)
 {
 	body.setPosition(x, y);
 }
+

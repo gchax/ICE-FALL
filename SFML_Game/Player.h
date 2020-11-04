@@ -13,9 +13,11 @@ public:
 	void Draw(sf::RenderWindow& window);
 	void SetPosition(float x, float y);
 
+	sf::FloatRect GetGlobalBounds() { return body.getGlobalBounds(); } 
 	sf::Vector2f GetPosition(){ return body.getPosition(); }
 	Collider GetCollider() { return Collider(body); }
 	sf::RectangleShape body;
+
 
 private:
 	
