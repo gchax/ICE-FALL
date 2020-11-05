@@ -6,50 +6,104 @@
 #include <sstream>
 #include <SFML/Audio.hpp>
 #include <time.h>
-#include<windows.h>
+#include <windows.h>
+#include "Menu.h"
+
 int main()
 {
-	//Endgame status
+	////////// Endgame status //////////
 	int pokeball = 0;
 	int flower = 0;
 
-	//window Height Weight
+	////////// window Height Weight //////////
 	float  windowWidth = 1200.0f, windowHight = 950.0f;
 
-	//State Count//
+	////////// State Count //////////
 	int state = 1;
-	bool check_state2 = false;
 
-	//Render Window//
-	sf::RenderWindow window(sf::VideoMode(int(windowWidth), int(windowHight)), "Satoshi Pajonpai", sf::Style::Close);
+	////////// Render Window //////////
+	sf::RenderWindow window(sf::VideoMode(int(windowWidth), int(windowHight)), "Satoshi Pajonpai", sf::Style::Close | sf::Style::Resize);
 	window.setFramerateLimit(120);
 
-	//View
+	//Manu State
+	Menu menu(windowWidth, windowHight);
+	bool checkGameOpen = false;
+	while (window.isOpen())
+	{
+		sf::Event evnt;
+		while (window.pollEvent(evnt))
+		{
+			switch (evnt.type)
+			{
+				case sf::Event::KeyReleased:
+					switch (evnt.key.code) {
+					case sf::Keyboard::W:
+						menu.MoveUp();
+						break;
+					case sf::Keyboard::S:
+						menu.MoveDown();
+						break;
+					case sf::Keyboard::Return:
+						switch (menu.GetPressedItem()){
+						case 0:
+							std::cout << "Play is Pressed";
+							state = 1;
+							checkGameOpen = true;
+							break;
+						case 1:
+							std::cout << "Leaderboard is Pressed";
+							break;
+						case 2:
+							window.close();
+							break;
+						}
+					}
+					break;
+
+				case sf::Event::Closed:
+					window.close();
+					break;
+			}
+			
+		}
+		window.clear();
+		menu.draw(window);
+
+		window.display();
+		if(checkGameOpen == true)
+		break;
+	}
+
+	////////// View //////////
 	sf::View view(sf::Vector2f(667.f, 460.f), sf::Vector2f(windowWidth, windowHight));
 
-	//Player//
+	////////// Player //////////
 	sf::Texture playerTexture;
 	playerTexture.loadFromFile("Satoshi.png");
 	Player player(&playerTexture, sf::Vector2u(4, 8), 0.2f, 50.0f);
 
-	//Pokeball Texture//
+	////////// Pokeball Texture //////////
 	sf::Texture pokeballTexture;
 	pokeballTexture.loadFromFile("Pokeball4.png");
 
-	//Black Texture//
+	////////// Black Texture //////////
 	sf::Texture BlackTexture;
 	BlackTexture.loadFromFile("Black.jpg");
 
-	//Clock//
+	////////// Chest Texture //////////
+	sf::Texture chestTexture;
+	chestTexture.loadFromFile("chest.png");
+
+	////////// Clock //////////
 	float deltaTime = 0.0f;
 	sf::Clock clock;
 
-	//Font//
+	////////// Font //////////
 	sf::Font font;
 	if (!font.loadFromFile("LayijiMahaniyomV105.ttf"))
 		std::cout << "ERROR FONT";
 
-	//Font GameOver
+	////////// Font GameOver //////////
 	sf::Text textGameOver;
 	textGameOver.setFont(font);
 	textGameOver.setCharacterSize(256);
@@ -57,7 +111,7 @@ int main()
 	textGameOver.setStyle(sf::Text::Style::Bold);
 	textGameOver.setString("Game Over");
 
-	//Font Pokeball Bomb
+	////////// Font Pokeball Bomb //////////
 	sf::Text textPokeball;
 	textPokeball.setFont(font);
 	textPokeball.setCharacterSize(64);
@@ -65,7 +119,7 @@ int main()
 	textPokeball.setStyle(sf::Text::Style::Bold);
 	textPokeball.setString("Pokeball is a Bomb!?");
 
-	//Font Flower Prison
+	////////// Font Flower Prison //////////
 	sf::Text textFloawer;
 	textFloawer.setFont(font);
 	textFloawer.setCharacterSize(64);
@@ -73,7 +127,11 @@ int main()
 	textFloawer.setStyle(sf::Text::Style::Bold);
 	textFloawer.setString("Flowers have Venom");
 
-	//Run Game
+	////////// state obj //////////
+	bool check_state2 = false;
+	bool boxstate2_1 = false;
+
+	////////// Run Game //////////
 	while (1)
 	{
 		//State
@@ -82,6 +140,8 @@ int main()
 			//Spawn Point
 			if (check_state2)
 				player.SetPosition(845.f, 693.f);
+			else
+				player.SetPosition(667.f, 460.f);
 
 			//BackGround//
 			float backGroundWidth = windowWidth / 2.0f;
@@ -106,7 +166,12 @@ int main()
 			Platform Box7(&pokeballTexture, sf::Vector2f(40.0f, 40.0f), sf::Vector2f(684.6f + 160.0f, 220.7f + 117.5f + 250.0f));
 
 			//Platform Floor 2//
-			Platform Brahma(&BlackTexture, sf::Vector2f(92.0f, 100.0f), sf::Vector2f(685.0f + 160.0f, 215.f + 117.5f));
+			Platform Stair(&BlackTexture, sf::Vector2f(20, 20), sf::Vector2f(685.0f + 160.0f, 175.f + 117.5f));
+
+			//PlatForm Text1
+			sf::Texture textFindKey;
+			textFindKey.loadFromFile("text1.png");
+			
 
 			//Game Play//
 			while (window.isOpen())
@@ -153,21 +218,25 @@ int main()
 
 				window.clear();
 				window.setView(view);
-				Box1.Draw(window);
+			
+				window.draw(background);
+				/*Box1.Draw(window);
 				Box2.Draw(window);
 				Box3.Draw(window);
 				Box4.Draw(window);
 				Box5.Draw(window);
 				Box6.Draw(window);
-				Box8.Draw(window);
-
-				window.draw(background);
+				Box8.Draw(window);*/
+				Stair.Draw(window);
 				Box7.Draw(window);
-
-				Brahma.Draw(window);
 				player.Draw(window);
 
-
+				//Text Find Key
+				if (player.GetGlobalBounds().intersects(Stair.GetGlobalBounds()))
+				{
+					Platform Text1(&textFindKey, sf::Vector2f(1180, 120), sf::Vector2f(player.GetPosition().x, player.GetPosition().y + 400));
+					Text1.Draw(window);
+				}
 				//Game Over Pokeball
 				if (player.GetPosition().x > 805.0f && player.GetPosition().x <= 872.0f && player.GetPosition().y >= 620.0f - 100.f && player.GetPosition().y <= 690.0f - 100.f)
 				{
@@ -178,6 +247,7 @@ int main()
 				//Goto state 2
 				if (player.GetPosition().x > 824.0f && player.GetPosition().x <= 938.0f && player.GetPosition().y >= 787.0f && player.GetPosition().y <= 788.0f)
 				{
+					check_state2 = true;
 					//spawn point
 					player.SetPosition(315.f, 433.f);
 					std::cout << "state 2\n";
@@ -191,6 +261,8 @@ int main()
 		}
 		else if (state == 2)
 		{
+			check_state2 = true;
+
 			//BackGround//
 			float backGroundWidth = windowWidth / 2.0f;
 			float backGroundHeight = windowHight / 2.0f;
@@ -226,9 +298,19 @@ int main()
 
 			//Platform Flower//
 			Platform Flower1(nullptr, sf::Vector2f(57, 44), sf::Vector2f(349.5f - 164.f, 709.0f - 144.f - 100.f));
+			Platform Flower2(nullptr, sf::Vector2f(57, 44), sf::Vector2f(155.5f - 164.f, 500.0f - 144.f - 20.f));
+
+			//Platform Grass//
+			Platform Grass1(nullptr, sf::Vector2f(100, 150), sf::Vector2f(-164 + 197.5 - 50 , -239+ 406.5 - 100));
+
+			//Platform Chest//
+			Platform Chest1(&chestTexture, sf::Vector2f(60, 60), sf::Vector2f(-164 + 148.0, -239 + 310.0));
 
 			//Platform pokeball//
-			//Platform pokeball2_1(&pokeballTexture, sf::Vector2f(40.0f, 40.0f), sf::Vector2f(684.6f + 160.0f, 220.7f + 117.5f + 250.0f));
+			Platform pokeball2_1(&pokeballTexture, sf::Vector2f(40.0f, 40.0f), sf::Vector2f(-164 + 220.5, -239 + 579.0));
+
+			//Platform goto state 4
+			Platform door2_3(nullptr, sf::Vector2f(15, 15), sf::Vector2f(-164 + 604.5, -239 + 1075));
 
 			//In Game
 			while (window.isOpen())
@@ -257,7 +339,7 @@ int main()
 				Box8.GetCollider().CheckCollision(playerCollision, 1.0f);
 				Box9.GetCollider().CheckCollision(playerCollision, 1.0f);
 				Box10.GetCollider().CheckCollision(playerCollision, 1.0f);
-
+				
 				//Check Collision House
 				House1_1.GetCollider().CheckCollision(playerCollision, 1.0f);
 				House1_2.GetCollider().CheckCollision(playerCollision, 1.0f);
@@ -269,14 +351,10 @@ int main()
 				House3_2.GetCollider().CheckCollision(playerCollision, 1.0f);
 				House3_3.GetCollider().CheckCollision(playerCollision, 1.0f);
 
-				//Check Flower Prison
-
-
 				//Draw
 				player.Update(deltaTime);
 				view.setCenter(player.GetPosition());
 				std::cout << "x = " << player.GetPosition().x << " y = " << player.GetPosition().y << std::endl;
-
 				window.clear();
 				window.setView(view);
 				Box1.Draw(window);
@@ -299,13 +377,30 @@ int main()
 				House3_2.Draw(window);
 				House3_3.Draw(window);
 				Flower1.Draw(window);
+				Flower2.Draw(window);
+				
+
 				window.draw(background);
+				
+				door2_3.Draw(window);
+				
 
+				//chest
+				if (player.GetGlobalBounds().intersects(Grass1.GetGlobalBounds()))
+					boxstate2_1 = true;
+				
+				if (boxstate2_1)
+					pokeball2_1.Draw(window);
+				else
+					Chest1.Draw(window);
 
-				player.Draw(window);
-
-				//Game Over Pokeball
+				//Game Over flower
 				if (player.GetPosition().x >= 155.0f && player.GetPosition().x <= 215.0f && player.GetPosition().y >= 414.0f && player.GetPosition().y <= 445.0f)
+				{
+					flower = 1;
+					break;
+				}
+				if (player.GetPosition().x >= -37 && player.GetPosition().x <= 20 && player.GetPosition().y >= 314.0f && player.GetPosition().y <= 365)
 				{
 					flower = 1;
 					break;
@@ -329,6 +424,16 @@ int main()
 					break;
 				}
 
+				//Goto state 4 (Docktor room)
+				if (player.GetGlobalBounds().intersects(door2_3.GetGlobalBounds()))
+				{
+					check_state2 = true;
+					player.SetPosition(595.f, 720.f);
+					state = 4;
+					break;
+				}
+
+				player.Draw(window);
 				window.display();
 			}
 
@@ -418,15 +523,60 @@ int main()
 				window.draw(background);
 
 				
-
 				player.Draw(window);
 				window.display();
 			}
-
-
-
 		}
+		else if (state == 4)
+		{
+			//BackGround//
+			sf::Texture backgroundTexture;
+			backgroundTexture.loadFromFile("state4.png");
+			float backGroundWidth = windowWidth / 2.0f;
+			float backGroundHeight = windowHight / 2.0f;
+			sf::RectangleShape background(sf::Vector2f(1030, 1015));
+			background.setTexture(&backgroundTexture);
+			background.setOrigin(background.getSize() / 2.0f);
+			background.setPosition(sf::Vector2f(backGroundWidth, backGroundHeight));
 		
+			//Platform//
+			Platform Box1(&BlackTexture, sf::Vector2f(155, 110), sf::Vector2f(77, 71));
+
+			while (window.isOpen())
+			{
+				//Close Window//
+				sf::Event evnt;
+				while (window.pollEvent(evnt))
+				{
+					switch (evnt.type)
+					{
+					case sf::Event::Closed:
+						window.close();
+						break;
+					}
+				}
+
+				//Cheek Collision Furniture
+				Collider playerCollision = player.GetCollider();
+				Box1.GetCollider().CheckCollision(playerCollision, 1.0f);
+
+				//Draw
+				player.Update(deltaTime);
+				view.setCenter(player.GetPosition());
+				std::cout << "x = " << player.GetPosition().x << " y = " << player.GetPosition().y << std::endl;
+				window.clear();
+				window.setView(view);
+
+				window.draw(background);
+				Box1.Draw(window);
+
+				player.Draw(window);
+
+				window.display();
+			}
+		}
+
+
 		if (pokeball == 1)
 		{
 			while (window.isOpen())
@@ -490,5 +640,6 @@ int main()
 
 		
 	}
+	
 	return 0;
 }
