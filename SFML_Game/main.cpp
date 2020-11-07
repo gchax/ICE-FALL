@@ -39,9 +39,9 @@ int main()
 	playerTexture.loadFromFile("Satoshi.png");
 	Player player(&playerTexture, sf::Vector2u(4, 8), 0.2f, 50.0f);
 
-	sf::Texture harukaTexture;
-	harukaTexture.loadFromFile("Satoshi.png");
-	Platform Dcoter(&BlackTexture, sf::Vector2f(342.0f, 150.0f), sf::Vector2f(171.0f + 160.0f, 138.0f + 117.5f - 20.0f));
+	sf::Texture docterTexture;
+	docterTexture.loadFromFile("Docter.png");
+	Platform Dcoter(&docterTexture, sf::Vector2f(60.f, 80.f), sf::Vector2f(85 + 552, -32.5 + 411));
 
 	////////// Pokeball Texture //////////
 	sf::Texture pokeballTexture;
@@ -613,6 +613,7 @@ int main()
 
 				window.draw(background);
 
+				Dcoter.Draw(window);
 				player.Draw(window);
 				window.display();
 			}
