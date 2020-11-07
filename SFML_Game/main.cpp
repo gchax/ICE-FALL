@@ -9,6 +9,12 @@
 #include <windows.h>
 #include "Menu.h"
 
+void ResizeView(const sf::RenderWindow& window, sf::View& view)
+{
+	float aspectRatio = float(window.getSize().x) / float(window.getSize().y);
+	view.setSize(1200*aspectRatio, 950);
+}
+
 int main()
 {
 	////////// Endgame status //////////
@@ -22,57 +28,8 @@ int main()
 	int state = 1;
 
 	////////// Render Window //////////
-	sf::RenderWindow window(sf::VideoMode(int(windowWidth), int(windowHight)), "Satoshi Pajonpai", sf::Style::Close | sf::Style::Resize);
+	sf::RenderWindow window(sf::VideoMode(int(windowWidth), int(windowHight)), "Satoshi Pajonpai", sf::Style::Close);
 	window.setFramerateLimit(120);
-
-	//Manu State
-	Menu menu(windowWidth, windowHight);
-	bool checkGameOpen = false;
-	while (window.isOpen())
-	{
-		sf::Event evnt;
-		while (window.pollEvent(evnt))
-		{
-			switch (evnt.type)
-			{
-				case sf::Event::KeyReleased:
-					switch (evnt.key.code) {
-					case sf::Keyboard::W:
-						menu.MoveUp();
-						break;
-					case sf::Keyboard::S:
-						menu.MoveDown();
-						break;
-					case sf::Keyboard::Return:
-						switch (menu.GetPressedItem()){
-						case 0:
-							std::cout << "Play is Pressed";
-							state = 1;
-							checkGameOpen = true;
-							break;
-						case 1:
-							std::cout << "Leaderboard is Pressed";
-							break;
-						case 2:
-							window.close();
-							break;
-						}
-					}
-					break;
-
-				case sf::Event::Closed:
-					window.close();
-					break;
-			}
-			
-		}
-		window.clear();
-		menu.draw(window);
-
-		window.display();
-		if(checkGameOpen == true)
-		break;
-	}
 
 	////////// View //////////
 	sf::View view(sf::Vector2f(667.f, 460.f), sf::Vector2f(windowWidth, windowHight));
@@ -81,6 +38,10 @@ int main()
 	sf::Texture playerTexture;
 	playerTexture.loadFromFile("Satoshi.png");
 	Player player(&playerTexture, sf::Vector2u(4, 8), 0.2f, 50.0f);
+
+	sf::Texture harukaTexture;
+	harukaTexture.loadFromFile("Satoshi.png");
+	Platform Dcoter(&BlackTexture, sf::Vector2f(342.0f, 150.0f), sf::Vector2f(171.0f + 160.0f, 138.0f + 117.5f - 20.0f));
 
 	////////// Pokeball Texture //////////
 	sf::Texture pokeballTexture;
@@ -127,14 +88,71 @@ int main()
 	textFloawer.setStyle(sf::Text::Style::Bold);
 	textFloawer.setString("Flowers have Venom");
 
+	//PlatForm Text1
+	sf::Texture textFindKey;
+	textFindKey.loadFromFile("text1.png");
+	sf::Texture textDoNotGoSecoundFloor;
+	textDoNotGoSecoundFloor.loadFromFile("text2.png");
+	sf::Texture textHouse3_2;
+	textHouse3_2.loadFromFile("textHouse3_2.png");
+
+
 	////////// state obj //////////
 	bool check_state2 = false;
-	bool boxstate2_1 = false;
+	
+	//////////    Manu State    //////////
+	Menu menu(windowWidth, windowHight);
+	bool checkGameOpen = false;
+	while (window.isOpen())
+	{
+		sf::Event evnt;
+		while (window.pollEvent(evnt))
+		{
+			switch (evnt.type)
+			{
+			case sf::Event::KeyReleased:
+				switch (evnt.key.code) {
+				case sf::Keyboard::W:
+					menu.MoveUp();
+					break;
+				case sf::Keyboard::S:
+					menu.MoveDown();
+					break;
+				case sf::Keyboard::Return:
+					switch (menu.GetPressedItem()) {
+					case 0:
+						std::cout << "Play is Pressed";
+						state = 1;
+						checkGameOpen = true;
+						break;
+					case 1:
+						std::cout << "Leaderboard is Pressed";
+						break;
+					case 2:
+						window.close();
+						break;
+					}
+				}
+				break;
+
+			case sf::Event::Closed:
+				window.close();
+				break;
+			}
+
+		}
+		window.clear();
+		menu.draw(window);
+
+		window.display();
+		if (checkGameOpen == true)
+			break;
+	}
 
 	////////// Run Game //////////
 	while (1)
 	{
-		//State
+		bool boxstate2_1 = false;
 		if (state == 1)
 		{
 			//Spawn Point
@@ -168,9 +186,7 @@ int main()
 			//Platform Floor 2//
 			Platform Stair(&BlackTexture, sf::Vector2f(20, 20), sf::Vector2f(685.0f + 160.0f, 175.f + 117.5f));
 
-			//PlatForm Text1
-			sf::Texture textFindKey;
-			textFindKey.loadFromFile("text1.png");
+		
 			
 
 			//Game Play//
@@ -187,6 +203,9 @@ int main()
 					{
 					case sf::Event::Closed:
 						window.close();
+						break;
+					case sf::Event::Resized:
+						//ResizeView(window, view);
 						break;
 					}
 				}
@@ -220,14 +239,14 @@ int main()
 				window.setView(view);
 			
 				window.draw(background);
-				/*Box1.Draw(window);
-				Box2.Draw(window);
-				Box3.Draw(window);
-				Box4.Draw(window);
-				Box5.Draw(window);
-				Box6.Draw(window);
-				Box8.Draw(window);*/
-				Stair.Draw(window);
+				//Box1.Draw(window);
+				//Box2.Draw(window);
+				//Box3.Draw(window);
+				//Box4.Draw(window);
+				//Box5.Draw(window);
+				//Box6.Draw(window);
+				//Box8.Draw(window);
+				//Stair.Draw(window);
 				Box7.Draw(window);
 				player.Draw(window);
 
@@ -384,11 +403,17 @@ int main()
 				
 				door2_3.Draw(window);
 				
+				//text House 3
+				Platform boxChecktextHouse3_2(nullptr, sf::Vector2f(55, 55), sf::Vector2f(540.5f - 164.f, 1146.f - 144.f - 100));
+				if (player.GetGlobalBounds().intersects(boxChecktextHouse3_2.GetGlobalBounds()))
+				{
+					Platform Text1(&textHouse3_2, sf::Vector2f(1180, 120), sf::Vector2f(player.GetPosition().x, player.GetPosition().y + 400));
+					Text1.Draw(window);
+				}
 
 				//chest
 				if (player.GetGlobalBounds().intersects(Grass1.GetGlobalBounds()))
 					boxstate2_1 = true;
-				
 				if (boxstate2_1)
 					pokeball2_1.Draw(window);
 				else
@@ -477,6 +502,9 @@ int main()
 				Platform Box6(&BlackTexture, sf::Vector2f(135.0f, 220.0f), sf::Vector2f(165 + 67.5,125 + 111.5 - 60));
 				Platform Box7(&BlackTexture, sf::Vector2f(275.0f, 110.0f), sf::Vector2f(165 + 556,125 + 520.5));
 				Platform Box8(&BlackTexture, sf::Vector2f(140.0f, 42.0f), sf::Vector2f(165 + 155,125 + 672 + 45));
+				Platform Box9(&BlackTexture, sf::Vector2f(106.0f, 205.0f), sf::Vector2f(165 + 188, 125 + 120 - 60));
+				Platform Box10(&BlackTexture, sf::Vector2f(106.0f, 205.0f), sf::Vector2f(165 + 188, 125 + 120 - 50));
+
 				
 				//Background Collision
 				if (player.GetPosition().x < 165 + 45)
@@ -497,6 +525,7 @@ int main()
 				Box5.GetCollider().CheckCollision(playerCollision, 1.0f);
 				Box6.GetCollider().CheckCollision(playerCollision, 1.0f);			
 				Box7.GetCollider().CheckCollision(playerCollision, 1.0f);			
+				Box9.GetCollider().CheckCollision(playerCollision, 1.0f);			
 
 				//Goto state 2
 				if (player.GetGlobalBounds().intersects(Box8.GetGlobalBounds()))
@@ -512,16 +541,22 @@ int main()
 				std::cout << "x = " << player.GetPosition().x << " y = " << player.GetPosition().y << std::endl;
 				window.clear();
 				window.setView(view);
-				Box1.Draw(window);
-				Box2.Draw(window);
-				Box3.Draw(window);
-				Box4.Draw(window);
-				Box5.Draw(window);
-				Box6.Draw(window);
-				Box7.Draw(window);
-				Box8.Draw(window);
+				//Box1.Draw(window);
+				//Box2.Draw(window);
+				//Box3.Draw(window);
+				//Box4.Draw(window);
+				//Box5.Draw(window);
+				//Box6.Draw(window);
+				//Box7.Draw(window);
+				//Box9.Draw(window);
 				window.draw(background);
-
+				Box8.Draw(window);
+				if (player.GetGlobalBounds().intersects(Box10.GetGlobalBounds()))
+				{
+					Platform Text2(&textDoNotGoSecoundFloor, sf::Vector2f(1180, 120), sf::Vector2f(player.GetPosition().x, player.GetPosition().y + 400));
+					Text2.Draw(window);
+				}
+				
 				
 				player.Draw(window);
 				window.display();
@@ -539,8 +574,8 @@ int main()
 			background.setOrigin(background.getSize() / 2.0f);
 			background.setPosition(sf::Vector2f(backGroundWidth, backGroundHeight));
 		
-			//Platform//
-			Platform Box1(&BlackTexture, sf::Vector2f(155, 110), sf::Vector2f(77, 71));
+			//Platform init//
+
 
 			while (window.isOpen())
 			{
@@ -556,9 +591,18 @@ int main()
 					}
 				}
 
+				//Background Collision
+				if (player.GetPosition().x < 85 + 45)
+					player.SetPosition(85 + 45, player.GetPosition().y);
+				if (player.GetPosition().x > 85 + 1030 - 45)
+					player.SetPosition(85 + 1030 - 45, player.GetPosition().y);
+				if (player.GetPosition().y < -32.5 + 45)
+					player.SetPosition(player.GetPosition().x, -32.5 + 45);
+				if (player.GetPosition().y > -32.5 + 1015 - 45)
+					player.SetPosition(player.GetPosition().x, -32.5 + 1015 - 45);
+
 				//Cheek Collision Furniture
-				Collider playerCollision = player.GetCollider();
-				Box1.GetCollider().CheckCollision(playerCollision, 1.0f);
+				
 
 				//Draw
 				player.Update(deltaTime);
@@ -568,10 +612,8 @@ int main()
 				window.setView(view);
 
 				window.draw(background);
-				Box1.Draw(window);
 
 				player.Draw(window);
-
 				window.display();
 			}
 		}
@@ -636,9 +678,7 @@ int main()
 					window.close();
 				}
 			}
-		}
-
-		
+		}		
 	}
 	
 	return 0;
