@@ -7,7 +7,7 @@ Menu::Menu(float width, float height)
 	menu[0].setFont(font);
 	menu[0].setCharacterSize(60);
 	menu[0].setFillColor(sf::Color::Red);
-	menu[0].setString("PLay");
+	menu[0].setString("Start");
 	menu[0].setOrigin(menu[0].getLocalBounds().width/2, menu[0].getLocalBounds().height/2);
 	menu[0].setPosition(sf::Vector2f(width / 2, height / (MAX_ITEM +1) * 1));
 

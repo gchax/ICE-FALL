@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML\Graphics.hpp>
-#define MAX_ITEM 3
+#define MAX_ITEM 2
+
 class Restart
 {
 public:
