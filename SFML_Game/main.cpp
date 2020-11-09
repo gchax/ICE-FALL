@@ -41,7 +41,7 @@ int main()
 
 	sf::Texture docterTexture;
 	docterTexture.loadFromFile("Docter.png");
-	Platform Dcoter(&docterTexture, sf::Vector2f(60.f, 80.f), sf::Vector2f(85 + 552, -32.5 + 411));
+	
 
 	////////// Pokeball Texture //////////
 	sf::Texture pokeballTexture;
@@ -91,10 +91,15 @@ int main()
 	//PlatForm Text1
 	sf::Texture textFindKey;
 	textFindKey.loadFromFile("text1.png");
+
 	sf::Texture textDoNotGoSecoundFloor;
 	textDoNotGoSecoundFloor.loadFromFile("text2.png");
+
 	sf::Texture textHouse3_2;
 	textHouse3_2.loadFromFile("textHouse3_2.png");
+
+	sf::Texture textDoceter1;
+	textDoceter1.loadFromFile("textDocter.png");
 
 
 	////////// state obj //////////
@@ -453,7 +458,7 @@ int main()
 				if (player.GetGlobalBounds().intersects(door2_3.GetGlobalBounds()))
 				{
 					check_state2 = true;
-					player.SetPosition(595.f, 720.f);
+					player.SetPosition(642.f, 840.f);
 					state = 4;
 					break;
 				}
@@ -553,8 +558,8 @@ int main()
 				Box8.Draw(window);
 				if (player.GetGlobalBounds().intersects(Box10.GetGlobalBounds()))
 				{
-					Platform Text2(&textDoNotGoSecoundFloor, sf::Vector2f(1180, 120), sf::Vector2f(player.GetPosition().x, player.GetPosition().y + 400));
-					Text2.Draw(window);
+					Platform Text1(&textDoNotGoSecoundFloor, sf::Vector2f(1180, 120), sf::Vector2f(player.GetPosition().x, player.GetPosition().y + 400));
+					Text1.Draw(window);
 				}
 				
 				
@@ -575,7 +580,8 @@ int main()
 			background.setPosition(sf::Vector2f(backGroundWidth, backGroundHeight));
 		
 			//Platform init//
-
+			Platform Docter(&docterTexture, sf::Vector2f(60.f, 80.f), sf::Vector2f(85 + 552, -32.5 + 411));
+			Platform checkDocter(&BlackTexture, sf::Vector2f(30, 50), sf::Vector2f(85 + 552, -32.5 + 411 - 10));
 
 			while (window.isOpen())
 			{
@@ -602,7 +608,8 @@ int main()
 					player.SetPosition(player.GetPosition().x, -32.5 + 1015 - 45);
 
 				//Cheek Collision Furniture
-				
+				Collider playerCollision = player.GetCollider();
+				checkDocter.GetCollider().CheckCollision(playerCollision, 1.0f);
 
 				//Draw
 				player.Update(deltaTime);
@@ -612,9 +619,16 @@ int main()
 				window.setView(view);
 
 				window.draw(background);
-
-				Dcoter.Draw(window);
+				checkDocter.Draw(window);
+				Docter.Draw(window);
 				player.Draw(window);
+				
+				if (player.GetGlobalBounds().intersects(Docter.GetGlobalBounds()))
+				{
+					Platform Text(&textDoceter1, sf::Vector2f(1180, 120), sf::Vector2f(player.GetPosition().x, player.GetPosition().y + 400));
+					Text.Draw(window);
+					std::cout << "X";
+				}
 				window.display();
 			}
 		}
@@ -626,6 +640,7 @@ int main()
 			{
 				textGameOver.setPosition(player.GetPosition().x - 450, player.GetPosition().y - 300);
 				textPokeball.setPosition(player.GetPosition().x - 225, player.GetPosition().y);
+
 				//Text Display
 				window.clear();
 				window.draw(textGameOver);
@@ -643,10 +658,19 @@ int main()
 						break;
 					}
 				}
+
 				//CloseGame 2
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 				{
 					window.close();
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+				{
+					player.SetPosition(667.f, 460.f);
+					check_state2 = false;
+					pokeball = 0;
+					state = 1;
+					break;
 				}
 			}
 		}
@@ -680,6 +704,8 @@ int main()
 				}
 			}
 		}		
+
+		
 	}
 	
 	return 0;
