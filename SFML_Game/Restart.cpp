@@ -3,7 +3,7 @@
 Restart::Restart(float width, float height)
 {
 	font.loadFromFile("Pixeboy-z8XGD.ttf");
-
+	restartWindow.loadFromFile("GameOverTroll.png");
 	
 	
 
@@ -30,6 +30,7 @@ Restart::~Restart()
 
 void Restart::draw(sf::RenderWindow& window)
 {
+	//window.draw();
 	for (int i = 0; i < MAX_ITEM; i++)
 	{
 		window.draw(restart[i]);

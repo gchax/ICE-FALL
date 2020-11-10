@@ -12,10 +12,11 @@ public:
 	void MoveUp();
 	void MoveDown();
 	int GetPressedItem() { return selectedItem; }
-
+	
+	sf::Texture restartWindow;
+	
 private:
 	int selectedItem = 0;
-
 	sf::Font font;
 	sf::Text restart[MAX_ITEM];
 };
