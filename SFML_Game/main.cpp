@@ -10,7 +10,7 @@
 #include "Menu.h"
 #include <vector>
 #include "Bitmap.h"
-
+#include "Restart.h"
 //void ResizeView(const sf::RenderWindow& window, sf::View& view)
 //{
 //	float aspectRatio = float(window.getSize().x) / float(window.getSize().y);
@@ -106,7 +106,8 @@ int main()
 
 	////////// state obj //////////
 	bool check_state2 = false;
-	
+	bool checkGameRestart = false;
+
 	//////////    Manu State    //////////
 	Menu menu(windowWidth, windowHight);
 	bool checkGameOpen = false;
@@ -129,7 +130,7 @@ int main()
 					switch (menu.GetPressedItem()) {
 					case 0:
 						std::cout << "Play is Pressed";
-						state = 5;
+						state = 1;
 						checkGameOpen = true;
 						break;
 					case 1:
@@ -156,10 +157,19 @@ int main()
 			break;
 	}
 
+
+	//////////    Restart State    //////////
+	Restart restart(windowWidth, windowHight);
+	
+
+
 	////////// Run Game //////////
 	while (1)
-	{
+	{	
+		//status state
 		bool boxstate2_1 = false;
+		
+		//state
 		if (state == 1)
 		{
 			//Spawn Point
@@ -656,15 +666,15 @@ int main()
 									{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
 									{1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1 },
 									{1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1 },
-									{1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1 },
-									{1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
-									{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 },
+									{1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1 },
+									{1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1 },
+									{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1 },
 									{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1 },
 									{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1 },
 									{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1 },
 									{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 									{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1 },
-									{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+									{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 									{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1 },
 									{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
 									{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
@@ -688,11 +698,12 @@ int main()
 									{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 			};
 			
-			for (int mapX = 0; mapX < 44; mapX++)
+			//DrawMap
+			for (int mapX = 0; mapX < 48; mapX++)
 			{
-				for (int mapY = 0; mapY < 48; mapY++)
+				for (int mapY = 0; mapY < 44; mapY++)
 				{
-					if (outdoor[mapY][mapX] == 0)
+					if (outdoor[mapY][mapX] == 1)
 					{
 						Bitmap outdoor(nullptr, sf::Vector2f(((mapX) * 90) + 45, ((mapY) * 90) + 45), sf::Vector2f(90.f, 90.f));
 						block0.push_back(outdoor);
@@ -700,7 +711,7 @@ int main()
 				}
 			}
 			
-			player.SetPosition(0, 0);
+			player.SetPosition(1300, 3290);
 			while (window.isOpen())
 			{
 				//deltaTime//
@@ -740,76 +751,140 @@ int main()
 			}
 		}
 
-		if (pokeball == 1)
+		//restart
+		if (pokeball == 1 || flower == 1)
 		{
+			/*player.SetPosition(windowWidth, windowHight);*/
+			
+			std::cout << "Restart";
 			while (window.isOpen())
 			{
-				textGameOver.setPosition(player.GetPosition().x - 450, player.GetPosition().y - 300);
-				textPokeball.setPosition(player.GetPosition().x - 225, player.GetPosition().y);
-
-				//Text Display
-				window.clear();
-				window.draw(textGameOver);
-				window.draw(textPokeball);
-				window.display();
-
-				//CloseGame 1
+				//set View
+				view.setCenter(windowWidth / 1.5, windowHight / 2);
+				window.setView(view);
+				
+				//selected ITEM
 				sf::Event evnt;
 				while (window.pollEvent(evnt))
 				{
 					switch (evnt.type)
 					{
+					case sf::Event::KeyReleased:
+						switch (evnt.key.code) {
+						case sf::Keyboard::W:
+							restart.MoveUp();
+							break;
+						case sf::Keyboard::S:
+							restart.MoveDown();
+							break;
+						case sf::Keyboard::Return:
+							switch (restart.GetPressedItem()) {
+							case 0:
+								std::cout << "Restart is Pressed" << std::endl;
+								state = 1;
+								checkGameRestart = true;
+								break;
+							case 1:
+								std::cout << "manu is Pressed" << std::endl;
+								break;
+							}
+						}
+						break;
+
 					case sf::Event::Closed:
 						window.close();
 						break;
 					}
-				}
 
-				//CloseGame 2
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-				{
-					window.close();
 				}
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+				
+
+				window.clear();
+				restart.draw(window);
+				window.display();
+				if (checkGameRestart == true)
 				{
-					player.SetPosition(667.f, 460.f);
+					checkGameRestart = false;
 					check_state2 = false;
 					pokeball = 0;
-					state = 1;
+					flower = 0;
 					break;
 				}
+					
 			}
 		}
-		if (flower == 1)
-		{
-			while (window.isOpen())
-			{
-				textGameOver.setPosition(player.GetPosition().x - 450, player.GetPosition().y - 300);
-				textFloawer.setPosition(player.GetPosition().x - 225, player.GetPosition().y);
-				//Text Display
-				window.clear();
-				window.draw(textGameOver);
-				window.draw(textFloawer);
-				window.display();
 
-				//CloseGame 1
-				sf::Event evnt;
-				while (window.pollEvent(evnt))
-				{
-					switch (evnt.type)
-					{
-					case sf::Event::Closed:
-						window.close();
-						break;
-					}
-				}
-				//CloseGame 2
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-				{
-					window.close();
-				}
-			}
-		}		
+
+		//if (pokeball == 1)
+		//{
+		//	while (window.isOpen())
+		//	{
+		//		textGameOver.setPosition(player.GetPosition().x - 450, player.GetPosition().y - 300);
+		//		textPokeball.setPosition(player.GetPosition().x - 225, player.GetPosition().y);
+
+		//		//Text Display
+		//		window.clear();
+		//		window.draw(textGameOver);
+		//		window.draw(textPokeball);
+		//		window.display();
+
+		//		//CloseGame 1
+		//		sf::Event evnt;
+		//		while (window.pollEvent(evnt))
+		//		{
+		//			switch (evnt.type)
+		//			{
+		//			case sf::Event::Closed:
+		//			window.close();
+		//				break;
+		//			}
+		//		}
+
+		//		//CloseGame 2
+		//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		//		{
+		//			window.close();
+		//		}
+		//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+		//		{
+		//			player.SetPosition(667.f, 460.f);
+		//			check_state2 = false;
+		//			pokeball = 0;
+		//			state = 1;
+		//			break;
+		//		}
+		//	}
+		//}
+		//if (flower == 1)
+		//{
+		//	while (window.isOpen())
+		//	{
+		//		textGameOver.setPosition(player.GetPosition().x - 450, player.GetPosition().y - 300);
+		//		textFloawer.setPosition(player.GetPosition().x - 225, player.GetPosition().y);
+		//		//Text Display
+		//		window.clear();
+		//		window.draw(textGameOver);
+		//		window.draw(textFloawer);
+		//		window.display();
+
+		//		//CloseGame 1
+		//		sf::Event evnt;
+		//		while (window.pollEvent(evnt))
+		//		{
+		//			switch (evnt.type)
+		//			{
+		//			case sf::Event::Closed:
+		//				window.close();
+		//				break;
+		//			}
+		//		}
+		//		//CloseGame 2
+		//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		//		{
+		//			window.close();
+		//		}
+		//	}
+		//}		
 
 		
 	}
