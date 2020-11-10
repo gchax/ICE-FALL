@@ -130,7 +130,7 @@ int main()
 					switch (menu.GetPressedItem()) {
 					case 0:
 						std::cout << "Play is Pressed";
-						state = 1;
+						state = 5;
 						checkGameOpen = true;
 						break;
 					case 1:
