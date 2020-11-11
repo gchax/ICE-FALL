@@ -12,7 +12,7 @@
 #include "Bitmap.h"
 #include "Restart.h"
 
-static const float VIEW_HEIGHT = 900.0f;
+static const float VIEW_HEIGHT = 1000.0f;
 
 void ResizeView(const sf::RenderWindow& window, sf::View& view)
 {
@@ -130,7 +130,7 @@ int main()
 					switch (menu.GetPressedItem()) {
 					case 0:
 						std::cout << "Play is Pressed";
-						state = 5;
+						state = 1;
 						checkGameOpen = true;
 						break;
 					case 1:
@@ -177,7 +177,106 @@ int main()
 		bool boxstate2_1 = false;
 		
 		//state
-		if (state == 5)
+		if (state == 1)
+		{
+			//Background
+			sf::Texture backgroundState5Texture;
+			backgroundState5Texture.loadFromFile("Map1.png");
+			Platform Box1(&backgroundState5Texture, sf::Vector2f(224 * 64 / 16, 256 * 64 / 16), sf::Vector2f(224 * 64 / 32, 256 * 64 / 32));
+
+			//BitMap Init
+			std::vector<Bitmap> block0;
+			int outdoor[16][14] = {
+									{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+									{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+									{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+									{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+									{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+									{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+									{0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+									{0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+									{0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+									{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0 },
+									{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0 },
+									{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0 },
+									{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+									{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+									{1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1 },
+									{1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1 },
+			};
+
+			//DrawBitMap
+			for (int mapX = 0; mapX < 14; mapX++)
+			{
+				for (int mapY = 0; mapY < 16; mapY++)
+				{
+					if (outdoor[mapY][mapX] == 1)
+					{
+						Bitmap outdoor(nullptr, sf::Vector2f(((mapX) * 64) + 32, ((mapY) * 64) + 32), sf::Vector2f(64.f, 64.f));
+						block0.push_back(outdoor);
+					}
+				}
+			}
+
+			//Run Game
+			player.SetPosition(461, 300);
+			while (window.isOpen())
+			{
+				//deltaTime//
+				deltaTime = clock.restart().asSeconds();
+
+				//Close Window//
+				sf::Event evnt;
+				while (window.pollEvent(evnt))
+				{
+					switch (evnt.type)
+					{
+					case sf::Event::Closed:
+						window.close();
+						break;
+					case sf::Event::Resized:
+						std::cout << "\Resized\n";
+						ResizeView(window, view);
+						break;
+					}
+				}
+
+				//BitMap Collision
+				Collider playerCollision = player.GetCollider();
+				for (int i = 0; i < block0.size(); i++)
+					block0[i].getCollider().CheckCollision(playerCollision, 1.0f);
+
+				//Window Collision
+				if (player.GetPosition().x < 0 + 29)
+				{
+					player.SetPosition(29, player.GetPosition().y);
+				}
+				if (player.GetPosition().y < 0 + 47)
+				{
+					player.SetPosition(player.GetPosition().x, 47);
+				}
+				if (player.GetPosition().x + 29 > 224 * 64 / 16)
+				{
+					player.SetPosition(224 * 64 / 16 - 29, player.GetPosition().y);
+				}
+				if (player.GetPosition().y + 47 > 256 * 64 / 16)
+				{
+					player.SetPosition(player.GetPosition().x, 256 * 64 / 16 - 47);
+				}
+
+
+				//Draw
+				player.Update(deltaTime);
+				view.setCenter(player.GetPosition());
+				std::cout << "x = " << player.GetPosition().x << " y = " << player.GetPosition().y << std::endl;
+				window.clear();
+				Box1.Draw(window);
+				player.Draw(window);
+				window.setView(view);
+				window.display();
+			}
+		}
+		else if (state == 5)
 		{
 			//Background
 			sf::Texture backgroundState5Texture;
@@ -348,80 +447,6 @@ int main()
 					
 			}
 		}
-
-		/*
-		//if (pokeball == 1)
-		//{
-		//	while (window.isOpen())
-		//	{
-		//		textGameOver.setPosition(player.GetPosition().x - 450, player.GetPosition().y - 300);
-		//		textPokeball.setPosition(player.GetPosition().x - 225, player.GetPosition().y);
-
-		//		//Text Display
-		//		window.clear();
-		//		window.draw(textGameOver);
-		//		window.draw(textPokeball);
-		//		window.display();
-
-		//		//CloseGame 1
-		//		sf::Event evnt;
-		//		while (window.pollEvent(evnt))
-		//		{
-		//			switch (evnt.type)
-		//			{
-		//			case sf::Event::Closed:
-		//			window.close();
-		//				break;
-		//			}
-		//		}
-
-		//		//CloseGame 2
-		//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		//		{
-		//			window.close();
-		//		}
-		//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-		//		{
-		//			player.SetPosition(667.f, 460.f);
-		//			check_state2 = false;
-		//			pokeball = 0;
-		//			state = 1;
-		//			break;
-		//		}
-		//	}
-		//}
-		//if (flower == 1)
-		//{
-		//	while (window.isOpen())
-		//	{
-		//		textGameOver.setPosition(player.GetPosition().x - 450, player.GetPosition().y - 300);
-		//		textFloawer.setPosition(player.GetPosition().x - 225, player.GetPosition().y);
-		//		//Text Display
-		//		window.clear();
-		//		window.draw(textGameOver);
-		//		window.draw(textFloawer);
-		//		window.display();
-
-		//		//CloseGame 1
-		//		sf::Event evnt;
-		//		while (window.pollEvent(evnt))
-		//		{
-		//			switch (evnt.type)
-		//			{
-		//			case sf::Event::Closed:
-		//				window.close();
-		//				break;
-		//			}
-		//		}
-		//		//CloseGame 2
-		//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		//		{
-		//			window.close();
-		//		}
-		//	}
-		//}		
-		*/ //Pokeball 
-		
 	}
 	
 	return 0;
