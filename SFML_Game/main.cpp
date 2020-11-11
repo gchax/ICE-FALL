@@ -48,11 +48,14 @@ int main()
 
 	sf::Texture docterTexture;
 	docterTexture.loadFromFile("Docter.png");
-	
 
 	////////// Pokeball Texture //////////
 	sf::Texture pokeballTexture;
 	pokeballTexture.loadFromFile("Pokeball4.png");
+
+	////////// Pokeball Texture //////////
+	sf::Texture dieTexture;
+	dieTexture.loadFromFile("die.png");
 
 	////////// Black Texture //////////
 	sf::Texture BlackTexture;
@@ -217,9 +220,16 @@ int main()
 					}
 				}
 			}
+			
+			//Platform Init
+			Platform door(nullptr, sf::Vector2f(34.f, 2.f), sf::Vector2f(113.f * 64 / 16, 255.f * 64 / 16));
+			
+			Platform die(&dieTexture, sf::Vector2f(58.f * 2, 94.f * 1.5), sf::Vector2f((16 * 7) * 4 - 23, 16 * 11 * 4));
+			/*else if (sf::Keyboard::isKeyPressed(sf::Keyboard::))
+			Platform die(&dieTexture, sf::Vector2f(58.f * 2, 94.f * 1.5), sf::Vector2f((16 * 7) * 4 - 23, 16 * 11 * 4 + 84));*/
 
 			//Run Game
-			player.SetPosition(461, 300);
+			player.SetPosition(426, 427);
 			while (window.isOpen())
 			{
 				//deltaTime//
@@ -241,11 +251,14 @@ int main()
 					}
 				}
 
+				//Player Update
+				player.Update(deltaTime);
+
 				//BitMap Collision
 				Collider playerCollision = player.GetCollider();
 				for (int i = 0; i < block0.size(); i++)
 					block0[i].getCollider().CheckCollision(playerCollision, 1.0f);
-
+				
 				//Window Collision
 				if (player.GetPosition().x < 0 + 29)
 				{
@@ -264,11 +277,7 @@ int main()
 					player.SetPosition(player.GetPosition().x, 256 * 64 / 16 - 47);
 				}
 
-				//Platform Init
-				
-
 				//Draw
-				player.Update(deltaTime);
 				view.setCenter(player.GetPosition());
 				std::cout << "x = " << player.GetPosition().x << " y = " << player.GetPosition().y << std::endl;
 				window.clear();
@@ -276,13 +285,74 @@ int main()
 				player.Draw(window);
 				window.setView(view);
 
+				//Die
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+				{
+					if (player.GetPosition().x >= (16 * 6) * 4 && player.GetPosition().x <= (16 * 7) * 4 && player.GetPosition().y >= (16 * 10) * 4 && player.GetPosition().y <= (16 * 11) * 4)
+					{
+						std::cout << "\nDIE\n";
+						while (window.isOpen())
+						{
 
+							//Close Window//
+							sf::Event evnt;
+							while (window.pollEvent(evnt))
+							{
+								switch (evnt.type)
+								{
+								case sf::Event::Closed:
+									window.close();
+									break;
+								case sf::Event::Resized:
+									std::cout << "\Resized\n";
+									ResizeView(window, view);
+									break;
+								case sf::Event::KeyReleased:
+									if (evnt.key.code == sf::Keyboard::Return)
+										restartGame = true;
+									break;
+								}
+							}
 
+							if (restartGame)
+							{
+								std::cout << "xxxx\n\n";
+								break;
+							}
+							window.clear();
+							Box1.Draw(window);
+							die.Draw(window);
+							window.setView(view);
+
+							window.display();
+						}
+					}
+				}
+				
+				//Goto State 2
+				if (player.GetGlobalBounds().intersects(door.GetGlobalBounds()))
+				{
+					std::cout << "Goto State 2";
+					state = 2;
+					break;
+				}
+				
+				//Goto Restart
+				if (restartGame)
+				{
+					std::cout << "\nRestart in State 1\n";
+					break;
+				}
+					
+				//WIndow Display
 				window.display();
 			}
 		}
 		else if (state == 2)
 		{
+				//Set Position
+				player.SetPosition(576,751);
+				
 				//Background
 				sf::Texture backgroundState5Texture;
 				backgroundState5Texture.loadFromFile("Map2.png");
@@ -339,6 +409,7 @@ int main()
 					}
 				}
 
+				//Run Game
 				while (window.isOpen())
 				{
 					//deltaTime//
@@ -360,13 +431,15 @@ int main()
 						}
 					}
 
+					//Player Update
+					player.Update(deltaTime);
+
 					//BitMap Collision
 					Collider playerCollision = player.GetCollider();
 					for (int i = 0; i < block0.size(); i++)
 						block0[i].getCollider().CheckCollision(playerCollision, 1.0f);
 
 					//Draw
-					player.Update(deltaTime);
 					view.setCenter(player.GetPosition());
 					std::cout << "x = " << player.GetPosition().x << " y = " << player.GetPosition().y << std::endl;
 					window.clear();
