@@ -161,10 +161,11 @@ int main()
 	Restart restart(windowWidth, windowHight);
 	sf::Texture pickachuMeme;
 	pickachuMeme.loadFromFile("PickachuMeme.png");
-	Platform pickachuBox(&pickachuMeme, sf::Vector2f(240, 240), sf::Vector2f(windowWidth/2 + 180, windowHight/2 - 150));
+	Platform pickachuBox(&pickachuMeme, sf::Vector2f(240, 240), sf::Vector2f(windowWidth/2 + 150, windowHight/2 - 50));
 	
 	// State obj 
 	int state = 1;
+	int countDie = 0;
 	bool checkGameRestart = false;
 	bool restartGame = false;
 
@@ -563,14 +564,16 @@ int main()
 		// restart
 		if (restartGame)
 		{
-			/*player.SetPosition(windowWidth, windowHight);*/
+			// Count Die
+			countDie += 1;
+		
 			//set View
-				view.setCenter(windowWidth / 1.5, windowHight / 2);
+			view.setCenter(windowWidth / 1.5, windowHight / 2);
 			std::cout << "Restart";
+
+			//Render
 			while (window.isOpen())
-			{
-				
-					
+			{		
 				//selected ITEM
 				sf::Event evnt;
 				while (window.pollEvent(evnt))
@@ -610,7 +613,7 @@ int main()
 					}
 
 				}
-				
+		
 				//Draw Restart Menu
 				window.clear();
 				restart.draw(window);
