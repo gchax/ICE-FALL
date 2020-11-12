@@ -4,10 +4,6 @@ Restart::Restart(float width, float height)
 {
 	font.loadFromFile("Pixeboy-z8XGD.ttf");
 	restartWindow.loadFromFile("GameOverTroll.png");
-	
-	
-
-
 
 	restart[0].setFont(font);
 	restart[0].setCharacterSize(60);

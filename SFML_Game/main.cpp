@@ -24,57 +24,51 @@ void ResizeView(const sf::RenderWindow& window, sf::View& view)
 
 int main()
 {
-	////////// Endgame status //////////
-	int pokeball = 0;
-	int flower = 0;
-
-	////////// window Height Weight //////////
+	// Window Height Weight 
 	float  windowWidth = VIEW_HEIGHT, windowHight = VIEW_HEIGHT;
 
-	////////// State Count //////////
-	int state = 5;
-
-	////////// Render Window //////////
+	// Render Window 
 	sf::RenderWindow window(sf::VideoMode(int(windowWidth), int(windowHight)), "Satoshi Pajonpai", sf::Style::Close| sf::Style::Resize);
 	window.setFramerateLimit(120);
 
-	////////// View //////////
+	// View 
 	sf::View view(sf::Vector2f(VIEW_HEIGHT, VIEW_HEIGHT), sf::Vector2f(windowWidth, windowHight));
 
-	////////// Player //////////
+	// Player 
 	sf::Texture playerTexture;
 	playerTexture.loadFromFile("PerfectSprite.png");
 	Player player(&playerTexture, sf::Vector2u(4, 8), 0.5f, 100.0f);
 
+	// Texture Docter
 	sf::Texture docterTexture;
 	docterTexture.loadFromFile("Docter.png");
 
-	////////// Pokeball Texture //////////
+	// Pokeball Texture 
 	sf::Texture pokeballTexture;
 	pokeballTexture.loadFromFile("Pokeball4.png");
 
-	////////// Pokeball Texture //////////
+	// Die Texture 
 	sf::Texture dieTexture;
 	dieTexture.loadFromFile("die.png");
 
-	////////// Black Texture //////////
+	// Black Texture 
 	sf::Texture BlackTexture;
 	BlackTexture.loadFromFile("Black.jpg");
 
-	////////// Chest Texture //////////
+	// Chest Texture 
 	sf::Texture chestTexture;
 	chestTexture.loadFromFile("chest.png");
 
-	////////// Clock //////////
+	// Clock 
 	float deltaTime = 0.0f;
 	sf::Clock clock;
 
-	////////// Font //////////
+	// Font 
 	sf::Font font;
 	if (!font.loadFromFile("LayijiMahaniyomV105.ttf"))
 		std::cout << "ERROR FONT";
 
-	////////// Font GameOver //////////
+	// Font GameOver 
 	sf::Text textGameOver;
 	textGameOver.setFont(font);
 	textGameOver.setCharacterSize(256);
@@ -82,7 +76,7 @@ int main()
 	textGameOver.setStyle(sf::Text::Style::Bold);
 	textGameOver.setString("Game Over");
 
-	////////// Font Pokeball Bomb //////////
+	// Font Pokeball Bomb 
 	sf::Text textPokeball;
 	textPokeball.setFont(font);
 	textPokeball.setCharacterSize(64);
@@ -90,7 +84,7 @@ int main()
 	textPokeball.setStyle(sf::Text::Style::Bold);
 	textPokeball.setString("Pokeball is a Bomb!?");
 
-	////////// Font Flower Prison //////////
+	// Font Flower Prison 
 	sf::Text textFloawer;
 	textFloawer.setFont(font);
 	textFloawer.setCharacterSize(64);
@@ -98,7 +92,7 @@ int main()
 	textFloawer.setStyle(sf::Text::Style::Bold);
 	textFloawer.setString("Flowers have Venom");
 
-	//PlatForm Text1
+	// Texture Text
 	sf::Texture textFindKey;
 	textFindKey.loadFromFile("text1.png");
 
@@ -111,7 +105,7 @@ int main()
 	sf::Texture textDoceter1;
 	textDoceter1.loadFromFile("textDocter.png");
 
-	//////////    Manu State    //////////
+	// Manu State    
 	Menu menu(windowWidth, windowHight);
 	bool checkGameOpen = false;
 	while (window.isOpen())
@@ -133,7 +127,6 @@ int main()
 					switch (menu.GetPressedItem()) {
 					case 0:
 						std::cout << "Play is Pressed";
-						state = 1;
 						checkGameOpen = true;
 						break;
 					case 1:
@@ -159,33 +152,34 @@ int main()
 		}
 		window.clear();
 		menu.draw(window);
-
 		window.display();
 		if (checkGameOpen == true)
 			break;
 	}
-
-	//////////    Restart State    //////////
+	 
+	// Restart State    
 	Restart restart(windowWidth, windowHight);
+	sf::Texture pickachuMeme;
+	pickachuMeme.loadFromFile("PickachuMeme.png");
+	Platform pickachuBox(&pickachuMeme, sf::Vector2f(240, 240), sf::Vector2f(windowWidth/2 + 180, windowHight/2 - 150));
 	
-	state = 1;
-	////////// state obj //////////
+	// State obj 
+	int state = 1;
 	bool checkGameRestart = false;
 	bool restartGame = false;
 
-	//Run Game
+	// Run Game
 	while (1)
 	{	
-		//status state
+		// status state
 		
-		
-		//state
+		// state
 		if (state == 1) 
 		{
 			//Background
 			sf::Texture backgroundState5Texture;
 			backgroundState5Texture.loadFromFile("Map1.png");
-			Platform Box1(&backgroundState5Texture, sf::Vector2f(224 * 64 / 16, 256 * 64 / 16), sf::Vector2f(224 * 64 / 32, 256 * 64 / 32));
+			Platform Background1(&backgroundState5Texture, sf::Vector2f(224 * 64 / 16, 256 * 64 / 16), sf::Vector2f(224 * 64 / 32, 256 * 64 / 32));
 
 			//BitMap Init
 			std::vector<Bitmap> block0;
@@ -223,10 +217,7 @@ int main()
 			
 			//Platform Init
 			Platform door(nullptr, sf::Vector2f(34.f, 2.f), sf::Vector2f(113.f * 64 / 16, 255.f * 64 / 16));
-			
 			Platform die(&dieTexture, sf::Vector2f(58.f * 2, 94.f * 1.5), sf::Vector2f((16 * 7) * 4 - 23, 16 * 11 * 4));
-			/*else if (sf::Keyboard::isKeyPressed(sf::Keyboard::))
-			Platform die(&dieTexture, sf::Vector2f(58.f * 2, 94.f * 1.5), sf::Vector2f((16 * 7) * 4 - 23, 16 * 11 * 4 + 84));*/
 
 			//Run Game
 			player.SetPosition(426, 427);
@@ -281,7 +272,7 @@ int main()
 				view.setCenter(player.GetPosition());
 				std::cout << "x = " << player.GetPosition().x << " y = " << player.GetPosition().y << std::endl;
 				window.clear();
-				Box1.Draw(window);
+				Background1.Draw(window);
 				player.Draw(window);
 				window.setView(view);
 
@@ -320,15 +311,14 @@ int main()
 								break;
 							}
 							window.clear();
-							Box1.Draw(window);
+							Background1.Draw(window);
 							die.Draw(window);
 							window.setView(view);
 
 							window.display();
 						}
 					}
-				}
-				
+				}				
 				//Goto State 2
 				if (player.GetGlobalBounds().intersects(door.GetGlobalBounds()))
 				{
@@ -336,7 +326,6 @@ int main()
 					state = 2;
 					break;
 				}
-				
 				//Goto Restart
 				if (restartGame)
 				{
@@ -356,7 +345,7 @@ int main()
 				//Background
 				sf::Texture backgroundState5Texture;
 				backgroundState5Texture.loadFromFile("Map2.png");
-				Platform Box1(&backgroundState5Texture, sf::Vector2f(576 * 64 / 16, 529 * 64 / 16), sf::Vector2f(576 * 64 / 32, 529 * 64 / 32));
+				Platform Background2(&backgroundState5Texture, sf::Vector2f(576 * 64 / 16, 529 * 64 / 16), sf::Vector2f(576 * 64 / 32, 529 * 64 / 32));
 
 				//BitMap Init
 				std::vector<Bitmap> block0;
@@ -433,6 +422,16 @@ int main()
 
 					//Player Update
 					player.Update(deltaTime);
+					
+					// Window Collision
+					if (player.GetPosition().x < 0 + 29 )
+					{
+						player.SetPosition(29, player.GetPosition().y);
+					}
+					if (player.GetPosition().y + 46 > 529 * 64 / 16)
+					{
+						player.SetPosition(player.GetPosition().x, 529 * 64 / 16 - 46);
+					}
 
 					//BitMap Collision
 					Collider playerCollision = player.GetCollider();
@@ -443,7 +442,7 @@ int main()
 					view.setCenter(player.GetPosition());
 					std::cout << "x = " << player.GetPosition().x << " y = " << player.GetPosition().y << std::endl;
 					window.clear();
-					Box1.Draw(window);
+					Background2.Draw(window);
 					player.Draw(window);
 					window.setView(view);
 
@@ -561,18 +560,17 @@ int main()
 			}
 		}
 
-		//restart
+		// restart
 		if (restartGame)
 		{
 			/*player.SetPosition(windowWidth, windowHight);*/
-			
+			//set View
+				view.setCenter(windowWidth / 1.5, windowHight / 2);
 			std::cout << "Restart";
 			while (window.isOpen())
 			{
-				//set View
-				view.setCenter(windowWidth / 1.5, windowHight / 2);
-				window.setView(view);
 				
+					
 				//selected ITEM
 				sf::Event evnt;
 				while (window.pollEvent(evnt))
@@ -604,6 +602,11 @@ int main()
 					case sf::Event::Closed:
 						window.close();
 						break;
+					
+					case sf::Event::Resized:
+						std::cout << "\Resized\n";
+						ResizeView(window, view);
+						break;
 					}
 
 				}
@@ -611,6 +614,8 @@ int main()
 				//Draw Restart Menu
 				window.clear();
 				restart.draw(window);
+				pickachuBox.Draw(window);
+				window.setView(view);
 				window.display();
 
 				//Reset Status
